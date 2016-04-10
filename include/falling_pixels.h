@@ -4,6 +4,4 @@
 
 #include <GLFW/glfw3.h>
 
-GLFWwindow get_window(GLFWwindow * window_pointer);
-
 #endif
