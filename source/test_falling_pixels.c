@@ -11,8 +11,22 @@ static char * test_glfw_init() {
     return 0;
 }
 
+static char * test_create_window() {
+
+    int width = 640;
+    int height = 480;
+    const char* title = "Test Window";
+    GLFWmonitor * monitor = NULL;
+    GLFWwindow * share = NULL;
+
+    GLFWwindow * window = glfwCreateWindow(width, height, title, monitor, share);
+    mu_assert("Could not initialize window.", window != NULL);
+    return 0;
+}
+
 static char * all_tests() {
     mu_run_test(test_glfw_init);
+    mu_run_test(test_create_window);
     return 0;
 }
 
