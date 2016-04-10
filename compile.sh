@@ -6,6 +6,7 @@ linux_executables="linux"
 compiler="cc"
 source_folder="source"
 file_ending=".c"
+include_dir="include"
 
 if [ ! -d "$executable_dir" ]; then
   mkdir "$executable_dir"
@@ -35,7 +36,7 @@ for file in $source_folder/*; do
   case "$file" in
     *"$file_ending"*)
       exec_name=$(echo $file | cut -c 7- | rev | cut -c 3- | rev)
-      $compiler "$file" -o "${executable_dir}/$linux_executables/${exec_name}" $flags
+      $compiler "$file" -o "${executable_dir}/$linux_executables/${exec_name}" -I${include_dir} $flags
       ;;
   esac
 done
