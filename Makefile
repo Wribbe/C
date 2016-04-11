@@ -17,8 +17,16 @@ INCLUDE_FLAGS = -I$(D_INC)
 
 
 falling_pixels: falling_pixels.o
-	#$(CC) $(CFLAGS) $(GRAPHICS_FLAGS) -o $(D_EXEX)/falling_pixels falling_pixels.o
-	$(CC) -o $(D_EXEX)/falling_pixels falling_pixels.o $(GRAPHICS_FLAGS) $(CFLAGS)
+
+# FAILS #$(CC) $(CFLAGS) $(GRAPHICS_FLAGS) -o $(D_EXEX)/falling_pixels falling_pixels.o
+#
+# Works #$(CC) -o $(D_EXEX)/falling_pixels falling_pixels.o $(CFLAGS) $(GRAPHICS_FLAGS)
+# Works #$(CC) $(CFLAGS) -o $(D_EXEX)/falling_pixels falling_pixels.o $(GRAPHICS_FLAGS)
+
+# Works O.o #$(CC) $(CFLAGS) $(GRAPHICS_FLAGS) -o $(D_EXEX)/falling_pixels falling_pixels.o $(GRAPHICS_FLAGS)
+# FAILS #$(CC) $(CFLAGS) $(GRAPHICS_FLAGS) -o $(D_EXEX)/falling_pixels falling_pixels.o
+# FAILS #$(CC) $(GRAPHICS_FLAGS) -o $(D_EXEX)/falling_pixels falling_pixels.o $(CFLAGS)
+	$(CC) -o $(D_EXEX)/falling_pixels falling_pixels.o $(CFLAGS) $(GRAPHICS_FLAGS)
 
 falling_pixels.o: $(D_SRC)/falling_pixels.c $(D_INC)/falling_pixels.h
 	$(CC) -c $(D_SRC)/falling_pixels.c $(GRAPHICS_FLAGS) $(CFLAGS) $(INCLUDE_FLAGS)
