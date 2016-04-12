@@ -15,6 +15,18 @@ D_OBJ := objects
 
 INCLUDE_FLAGS := -I$(D_INC)
 
+.PHONY: clean
+.PHONY: all
+
+all: falling_pixels
+
+clean:
+	$(info Removing folder: $(D_OBJ).)
+	@rm -rf $(D_OBJ)
+	$(info Removing folder: $(D_EXEC).)
+	@rm -rf $(D_EXEC)
+	$(info Done.)
+
 falling_pixels: $(D_OBJ)/falling_pixels.o | mk_$(D_EXEC)
 
 # FAILS #$(CC) $(CFLAGS) $(GRAPHICS_FLAGS) -o $(D_EXEC)/falling_pixels falling_pixels.o
