@@ -36,7 +36,7 @@ $(D_OBJ)/falling_pixels.o: $(D_SRC)/falling_pixels.c $(D_INC)/falling_pixels.h |
 
 # Utility modules.
 
-$(D_OBJ)/utility_functions.o: $(D_SRC)/utility_functions.c
+$(D_OBJ)/utility_functions.o: $(D_SRC)/utility_functions.c $(D_SRC)/utils/utils_dict.c
 	$(CC) -c $(D_SRC)/utility_functions.c -o $(D_OBJ)/utility_functions.o $(CFLAGS) $(INCLUDE_FLAGS)
 
 # Test modules.

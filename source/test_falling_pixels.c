@@ -75,7 +75,13 @@ int main(void) {
     }
     printf("Test run: %d\n", tests_run);
 
-    dictionary_print();
+    hash_element * test;
+    dict_define(&test, 200);
+    dict_put("foo", "bar", test);
+    dict_put("foo", "bar", test);
+    //char * value = dict_get("test", test);
+    //printf("returned value: %s\n",value);
+    free(test);
 
     return result != 0;
 }
