@@ -6,12 +6,12 @@
 
 int tests_run = 0;
 
-static char * test_glfw_init() {
+static char * test_glfw_init(void) {
     mu_assert("Could not load GLFW.", glfwInit() != 0);
     return 0;
 }
 
-static char * test_create_window() {
+static char * test_create_window(void) {
 
     int width = 640;
     int height = 480;
