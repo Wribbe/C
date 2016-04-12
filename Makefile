@@ -1,21 +1,19 @@
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -pedantic -g
-GRAPHICS_FLAGS  = -lGLEW -lglfw3 -lGL -lX11 -lXrandr -lXi -lXxf86vm -lm -ldl -lXinerama -lXcursor -lrt -lpthread
-SOUND_FLAGS =  -lportaudio -lasound
+CFLAGS := -Wall -Wextra -pedantic -g
+GRAPHICS_FLAGS  := -lGLEW -lglfw3 -lGL -lX11 -lXrandr -lXi -lXxf86vm -lm -ldl -lXinerama -lXcursor -lrt -lpthread
+SOUND_FLAGS :=  -lportaudio -lasound
 
-D_SRC = source
-D_INC = include
-D_EXEX = executables
-D_OBJ = objects
+# Tracked folders.
+D_SRC := source
+D_INC := include
 
-INCLUDE_FLAGS = -I$(D_INC)
+# Generated folders.
+D_EXEX := executables
+D_OBJ := objects
 
-#CFLAGS = -lGLEW -lglfw3 -lGL -lX11 -lpthread -lXrandr -lXi -lXxf86vm -lm -ldl -lXinerama -lXcursor -lrt -lasound -lpthread -lportaudio -Wall -Wextra -pedantic
-#GRAPHICS_FLAGS =
-
-
+INCLUDE_FLAGS := -I$(D_INC)
 
 falling_pixels: $(D_OBJ)/falling_pixels.o
 
