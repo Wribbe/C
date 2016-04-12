@@ -1,7 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "minunit.h"
 #include "falling_pixels.h"
 
 #define UNUSED(x) (void)x
