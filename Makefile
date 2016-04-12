@@ -15,7 +15,7 @@ D_OBJ := objects
 
 INCLUDE_FLAGS := -I$(D_INC)
 
-falling_pixels: $(D_OBJ)/falling_pixels.o
+falling_pixels: $(D_OBJ)/falling_pixels.o | mk_$(D_EXEC)
 
 # FAILS #$(CC) $(CFLAGS) $(GRAPHICS_FLAGS) -o $(D_EXEC)/falling_pixels falling_pixels.o
 #
@@ -33,6 +33,11 @@ $(D_OBJ)/falling_pixels.o: $(D_SRC)/falling_pixels.c $(D_INC)/falling_pixels.h |
 mk_$(D_OBJ):
 ifeq "$(wildcard $(D_OBJ))" ""
 -include $(shell mkdir $(D_OBJ)) $(wildcard $(D_OBJ)/*)
+endif
+
+mk_$(D_EXEC):
+ifeq "$(wildcard $(D_EXEC))" ""
+-include $(shell mkdir $(D_EXEC)) $(wildcard $(D_EXEC)/*)
 endif
 
 
