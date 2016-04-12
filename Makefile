@@ -50,6 +50,8 @@ test_falling_pixels: $(D_OBJ)/test_falling_pixels.o
 $(D_OBJ)/test_falling_pixels.o: $(D_SRC)/test_falling_pixels.c $(D_INC)/falling_pixels.h $(D_INC)/minunit.h
 	$(CC) -c $(D_SRC)/test_falling_pixels.c -o $(D_OBJ)/test_falling_pixels.o $(GRAPHICS_FLAGS) $(CFLAGS) $(INCLUDE_FLAGS)
 
+# Utility commands.
+
 mk_$(D_OBJ):
 ifeq "$(wildcard $(D_OBJ))" ""
 -include $(shell mkdir $(D_OBJ)) $(wildcard $(D_OBJ)/*)
