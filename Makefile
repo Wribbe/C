@@ -27,9 +27,13 @@ falling_pixels: $(D_OBJ)/falling_pixels.o
 # FAILS #$(CC) $(GRAPHICS_FLAGS) -o $(D_EXEX)/falling_pixels falling_pixels.o $(CFLAGS)
 	$(CC) -o $(D_EXEX)/falling_pixels $(D_OBJ)/falling_pixels.o $(CFLAGS) $(GRAPHICS_FLAGS)
 
-$(D_OBJ)/falling_pixels.o: $(D_SRC)/falling_pixels.c $(D_INC)/falling_pixels.h
+$(D_OBJ)/falling_pixels.o: $(D_SRC)/falling_pixels.c $(D_INC)/falling_pixels.h | mk_$(D_OBJ)
 	$(CC) -c $(D_SRC)/falling_pixels.c -o $(D_OBJ)/falling_pixels.o $(GRAPHICS_FLAGS) $(CFLAGS) $(INCLUDE_FLAGS)
 
+mk_$(D_OBJ):
+ifeq "$(wildcard $(D_OBJ))" ""
+-include $(shell mkdir $(D_OBJ)) $(wildcard $(D_OBJ)/*)
+endif
 
 
 
