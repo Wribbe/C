@@ -3,6 +3,7 @@
 
 #include "minunit.h"
 #include "falling_pixels.h"
+#include "utility_functions.h"
 
 int tests_run = 0;
 
@@ -73,5 +74,6 @@ int main(void) {
         printf("ALL TESTS PASSED\n");
     }
     printf("Test run: %d\n", tests_run);
+
     return result != 0;
 }
