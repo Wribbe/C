@@ -56,7 +56,7 @@ endif
 
 
 #falling_pixels: $(D_SRC)/falling_pixels.c
-#	$(CC) $(D_SRC)/falling_pixels.c $(CFLAGS) $(GRAPHICS_FLAGS) $(INCLUDE_FLAGS) -o $(D_EXEX)/falling_pixels
+#	$(CC) $(D_SRC)/falling_pixels.c $(CFLAGS) $(GRAPHICS_FLAGS) $(INCLUDE_FLAGS) -o $(D_EXEC)/falling_pixels
 
 #test_falling_pixels: test_falling_pixels.o utility_functions.o
 #	$(CC) $(CFLAGS) $(GRAPHICS_FLAGS) -o test_falling_pixels test_falling_pixels.o utility_functions.o
