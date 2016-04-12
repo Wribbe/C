@@ -33,9 +33,11 @@ falling_pixels: $(D_OBJ)/falling_pixels.o | mk_$(D_EXEC)
 $(D_OBJ)/falling_pixels.o: $(D_SRC)/falling_pixels.c $(D_INC)/falling_pixels.h | mk_$(D_OBJ)
 	$(CC) -c $(D_SRC)/falling_pixels.c -o $(D_OBJ)/falling_pixels.o $(GRAPHICS_FLAGS) $(CFLAGS) $(INCLUDE_FLAGS)
 
-# Tests
+# Utility modules.
 
-test_falling_pixels: $(D_OBJ)/test_falling_pixels.o
+# Test modules.
+
+test_falling_pixels: $(D_OBJ)/test_falling_pixels.o $(D_OBJ)/utility_functions.o
 	$(CC) -o $(D_EXEC)/test_falling_pixels $(D_OBJ)/test_falling_pixels.o $(CFLAGS) $(GRAPHICS_FLAGS)
 
 $(D_OBJ)/test_falling_pixels.o: $(D_SRC)/test_falling_pixels.c $(D_INC)/falling_pixels.h $(D_INC)/minunit.h
