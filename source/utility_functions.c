@@ -2,6 +2,4 @@
 
 #include <stdio.h>
 
-void print_utility(void) {
-    printf("THIS IS FROM UTILITY!\n");
-}
+#include "utils/utils_dict.c"

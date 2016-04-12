@@ -75,5 +75,7 @@ int main(void) {
     }
     printf("Test run: %d\n", tests_run);
 
+    dictionary_print();
+
     return result != 0;
 }
