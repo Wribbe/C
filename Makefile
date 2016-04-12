@@ -8,6 +8,7 @@ SOUND_FLAGS =  -lportaudio -lasound
 D_SRC = source
 D_INC = include
 D_EXEX = executables
+D_OBJ = objects
 
 INCLUDE_FLAGS = -I$(D_INC)
 
@@ -16,7 +17,7 @@ INCLUDE_FLAGS = -I$(D_INC)
 
 
 
-falling_pixels: falling_pixels.o
+falling_pixels: $(D_OBJ)/falling_pixels.o
 
 # FAILS #$(CC) $(CFLAGS) $(GRAPHICS_FLAGS) -o $(D_EXEX)/falling_pixels falling_pixels.o
 #
@@ -26,10 +27,10 @@ falling_pixels: falling_pixels.o
 # Works O.o #$(CC) $(CFLAGS) $(GRAPHICS_FLAGS) -o $(D_EXEX)/falling_pixels falling_pixels.o $(GRAPHICS_FLAGS)
 # FAILS #$(CC) $(CFLAGS) $(GRAPHICS_FLAGS) -o $(D_EXEX)/falling_pixels falling_pixels.o
 # FAILS #$(CC) $(GRAPHICS_FLAGS) -o $(D_EXEX)/falling_pixels falling_pixels.o $(CFLAGS)
-	$(CC) -o $(D_EXEX)/falling_pixels falling_pixels.o $(CFLAGS) $(GRAPHICS_FLAGS)
+	$(CC) -o $(D_EXEX)/falling_pixels $(D_OBJ)/falling_pixels.o $(CFLAGS) $(GRAPHICS_FLAGS)
 
-falling_pixels.o: $(D_SRC)/falling_pixels.c $(D_INC)/falling_pixels.h
-	$(CC) -c $(D_SRC)/falling_pixels.c $(GRAPHICS_FLAGS) $(CFLAGS) $(INCLUDE_FLAGS)
+$(D_OBJ)/falling_pixels.o: $(D_SRC)/falling_pixels.c $(D_INC)/falling_pixels.h
+	$(CC) -c $(D_SRC)/falling_pixels.c -o $(D_OBJ)/falling_pixels.o $(GRAPHICS_FLAGS) $(CFLAGS) $(INCLUDE_FLAGS)
 
 
 
