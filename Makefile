@@ -28,15 +28,6 @@ clean:
 	$(info Done.)
 
 falling_pixels: $(D_OBJ)/falling_pixels.o | mk_$(D_EXEC)
-
-# FAILS #$(CC) $(CFLAGS) $(GRAPHICS_FLAGS) -o $(D_EXEC)/falling_pixels falling_pixels.o
-#
-# Works #$(CC) -o $(D_EXEC)/falling_pixels falling_pixels.o $(CFLAGS) $(GRAPHICS_FLAGS)
-# Works #$(CC) $(CFLAGS) -o $(D_EXEC)/falling_pixels falling_pixels.o $(GRAPHICS_FLAGS)
-
-# Works O.o #$(CC) $(CFLAGS) $(GRAPHICS_FLAGS) -o $(D_EXEC)/falling_pixels falling_pixels.o $(GRAPHICS_FLAGS)
-# FAILS #$(CC) $(CFLAGS) $(GRAPHICS_FLAGS) -o $(D_EXEC)/falling_pixels falling_pixels.o
-# FAILS #$(CC) $(GRAPHICS_FLAGS) -o $(D_EXEC)/falling_pixels falling_pixels.o $(CFLAGS)
 	$(CC) -o $(D_EXEC)/falling_pixels $(D_OBJ)/falling_pixels.o $(CFLAGS) $(GRAPHICS_FLAGS)
 
 $(D_OBJ)/falling_pixels.o: $(D_SRC)/falling_pixels.c $(D_INC)/falling_pixels.h | mk_$(D_OBJ)
