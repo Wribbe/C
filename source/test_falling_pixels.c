@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
 #include "minunit.h"
 #include "falling_pixels.h"
@@ -59,15 +60,39 @@ static char * test_compilation_error_without_graphics_flags(void) {
     return 0;
 }
 
-static char * test_utils_dict(void) {
-    mu_assert("Dictionary failed test.", 1 == 2);
+static char * test_utils_dictionary(void) {
+
+    size_t dict_size = 100;
+
+    char * key = "";
+    char * value = "";
+    char * return_value = "";
+
+    size_t error_message_size = 512;
+    char error[error_message_size];
+
+    dictionary * dict = dictionary_create(dict_size);
+
+    key = "key";
+    value = "value";
+
+    dictionary_put(key, value, dict);
+    return_value = dictionary_get(key, dict);
+
+    const char * error_format = "key: '%s' did not return value: '%s', got '%s' instead.";
+    snprintf(error, error_message_size, error_format, key, value, return_value);
+
+    mu_assert(error, 1 == 2);
+
+    free(dict);
+    return 0;
 }
 
 static char * all_tests(void) {
     mu_run_test(test_glfw_init);
     mu_run_test(test_create_window);
     mu_run_test(test_compilation_error_without_graphics_flags);
-    mu_run_test(test_utils_dict);
+    mu_run_test(test_utils_dictionary);
     return 0;
 }
 
@@ -80,14 +105,6 @@ int main(void) {
         printf("ALL TESTS PASSED\n");
     }
     printf("Test run: %d\n", tests_run);
-
-    hash_element * test;
-    dict_define(&test, 200);
-    dict_put("foo", "bar", test);
-    dict_put("foo", "bar", test);
-    //char * value = dict_get("test", test);
-    //printf("returned value: %s\n",value);
-    free(test);
 
     return result != 0;
 }
