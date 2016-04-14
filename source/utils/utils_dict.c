@@ -29,7 +29,7 @@ int dict_define(hash_element ** array_head, size_t size) {
     } else {
         array_size = size+1;
     }
-    hash_element * array = malloc(sizeof(hash_element)*array_size);
+    hash_element * array = calloc(array_size, sizeof(hash_element));
     array[0].size = array_size;
     //array[0].value = malloc(sizeof(char)*40);
     //strcpy(array[0].value, "This is a test.\n");
@@ -43,37 +43,36 @@ char * dict_get(char * key, hash_element * hash_array) {
 
 int dict_put(char * key, char * value, hash_element * hash_array) {
 
-    size_t size = hash_array[0].size;
-    unsigned int hash_value = get_hash(key, size);
+    size_t array_size = hash_array[0].size;
+    unsigned int hash_value = get_hash(key, array_size);
 
-    size_t length_key =  strlen(key)+1;
-    size_t length_value = strlen(value)+1;
+    size_t length_key =  strlen(key);
+    size_t length_value = strlen(value);
 
-    printf("length_key: %d, length_value: %d\n", length_key, length_value);
+    printf("length_key: %zu, length_value: %zu\n", length_key, length_value);
 
     hash_element * current_element_pointer;
 
     current_element_pointer = &(hash_array[hash_value]);
     while(current_element_pointer != NULL) {
+        /* Didn't find the key. */
         if (current_element_pointer->value == NULL) {
-            /* Check if we are at last element in list. */
-
             /* Allocate memory for new key, check for null, copy string data,
              * and ensure null termination. */
-            current_element_pointer->key = malloc(sizeof(char)*length_key);
+            current_element_pointer->key = malloc(sizeof(char)*length_key+1);
             if (!current_element_pointer->key) {
                 return -1;
             }
-            strncpy(current_element_pointer->key, key, length_key);
-            current_element_pointer->key[length_key] = '\0';
+            memcpy(current_element_pointer->key, key, length_key);
+            (current_element_pointer->key)[length_key] = '\0';
 
             /* Allocate memory for new value, check for null, copy string data,
              * and ensure null termination. */
-            current_element_pointer->value = malloc(sizeof(char)*length_value);
+            current_element_pointer->value = malloc(sizeof(char)*length_value+1);
             if (!current_element_pointer->value) {
                 return -1;
             }
-            strncpy(current_element_pointer->value, value, length_value);
+            memcpy(current_element_pointer->value, value, length_value);
             current_element_pointer->value[length_value] = '\0';
 
             /* Create new last element. */
