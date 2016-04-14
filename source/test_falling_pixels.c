@@ -59,10 +59,15 @@ static char * test_compilation_error_without_graphics_flags(void) {
     return 0;
 }
 
+static char * test_utils_dict(void) {
+    mu_assert("Dictionary failed test.", 1 == 2);
+}
+
 static char * all_tests(void) {
     mu_run_test(test_glfw_init);
     mu_run_test(test_create_window);
     mu_run_test(test_compilation_error_without_graphics_flags);
+    mu_run_test(test_utils_dict);
     return 0;
 }
 
