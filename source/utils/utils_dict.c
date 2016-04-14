@@ -86,7 +86,7 @@ int dictionary_put(char * key, char * value, dictionary * hash_array) {
          * Allocate new memory for new key, check for null, copy string data,
          * and ensure null termination. */
 
-        returned_element->key = malloc(sizeof(char)*length_key+1);
+        returned_element->key = malloc(sizeof(char)*(length_key+1));
         if (!returned_element->key) {
             return -1;
         }
@@ -96,7 +96,7 @@ int dictionary_put(char * key, char * value, dictionary * hash_array) {
         /* Allocate memory for new value, check for null, copy string data,
          * and ensure null termination. */
 
-        returned_element->value = malloc(sizeof(char)*length_value+1);
+        returned_element->value = malloc(sizeof(char)*(length_value+1));
         if (!returned_element->value) {
             return -1;
         }
