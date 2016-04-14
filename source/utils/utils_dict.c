@@ -93,9 +93,9 @@ int dict_put(char * key, char * value, hash_element * hash_array) {
 
             printf("hash: %d for %s returns value == NULL.\n", hash_value, key);
             return 0;
+        /* Check if keys match. */
         } else if (strcmp(current_element_pointer->key, key) == 0) {
-            /* Check if keys match. */
-            printf("Found key that matches %s\n", key);
+            /* Replace the current value with the new value. */
         }
 
         /* Continue with next element in linked list. */
