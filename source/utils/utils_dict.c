@@ -5,13 +5,13 @@
 #define DEFAULT_SIZE 256;
 #define HASH_PRIME 31;
 
-typedef struct hash_elment {
+typedef struct hash_element {
     struct hash_element * next;
     char * key;
     union {
         char * value;
         int size;
-    }
+    };
 } hash_element;
 
 unsigned int get_hash(char * string, size_t array_size) {
