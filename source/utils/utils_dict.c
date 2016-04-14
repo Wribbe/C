@@ -34,6 +34,7 @@ int dict_define(hash_element ** array_head, size_t size) {
     //array[0].value = malloc(sizeof(char)*40);
     //strcpy(array[0].value, "This is a test.\n");
     *array_head = &array[0];
+    return 0;
 }
 
 char * dict_get(char * key, hash_element * hash_array) {
