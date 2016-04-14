@@ -43,11 +43,11 @@ char * dict_get(char * key, hash_element * hash_array) {
 
 int dict_put(char * key, char * value, hash_element * hash_array) {
 
-    int size = hash_array[0].size;
+    size_t size = hash_array[0].size;
     unsigned int hash_value = get_hash(key, size);
 
-    int length_key =  strlen(key)+1;
-    int length_value = strlen(value)+1;
+    size_t length_key =  strlen(key)+1;
+    size_t length_value = strlen(value)+1;
 
     printf("length_key: %d, length_value: %d\n", length_key, length_value);
 
