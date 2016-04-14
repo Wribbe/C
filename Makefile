@@ -33,6 +33,8 @@ clean:
 	@rm -rf $(D_OBJ)
 	$(info Removing folder: $(D_EXEC).)
 	@rm -rf $(D_EXEC)
+	$(info Removing vgcore files.)
+	@rm -rf vgcore*
 	$(info Done.)
 
 falling_pixels: $(D_OBJ)/falling_pixels.o | mk_$(D_EXEC)
