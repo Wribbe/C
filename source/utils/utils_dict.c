@@ -14,6 +14,10 @@ typedef struct hash_element {
     };
 } hash_element;
 
+size_t length_array(hash_element * hash_array) {
+    return hash_array[0].size;
+}
+
 unsigned int get_hash(char * string, size_t array_size) {
     unsigned int hash_value = 0;
     printf("Hashing %s, ", string);
@@ -28,7 +32,7 @@ unsigned int get_hash(char * string, size_t array_size) {
     return hash_value;
 }
 
-int dict_define(hash_element ** array_head, size_t size) {
+hash_element * dict_define(size_t size) {
     size_t array_size = 0;
     if (size <= 0) {
         array_size = 1+DEFAULT_SIZE;
@@ -36,11 +40,39 @@ int dict_define(hash_element ** array_head, size_t size) {
         array_size = size+1;
     }
     hash_element * array = calloc(array_size, sizeof(hash_element));
+    if (!array) {
+        return NULL;
+    }
     array[0].size = array_size;
     //array[0].value = malloc(sizeof(char)*40);
     //strcpy(array[0].value, "This is a test.\n");
-    *array_head = &array[0];
-    return 0;
+    return array;
+}
+
+hash_element * iterate(char * key, hash_element * hash_array) {
+    /* Iterate over all elements until a matching key is found or the end of
+     * the liked list is reached. Return that hash element at that position. */
+
+    unsigned int hash_value = get_hash(key, length_array(hash_array));
+    hash_element * current_element_pointer = &(hash_array[hash_value]);
+
+    char * current_key = "";
+    char * current_value = "";
+
+    while(current_element_pointer->value != NULL) {
+
+        current_key = current_element_pointer->key;
+        current_value = current_element_pointer->value;
+
+        if (strcmp(current_key, key) == 0) {
+            /* Found matching key, return corresponding hash element. */
+            return current_element_pointer;
+        }
+        /* Continue with next element in linked list. */
+        current_element_pointer = current_element_pointer->next;
+    }
+    /* No matching key found, return end of list. */
+    return current_element_pointer;
 }
 
 char * dict_get(char * key, hash_element * hash_array) {
@@ -49,73 +81,54 @@ char * dict_get(char * key, hash_element * hash_array) {
 
 int dict_put(char * key, char * value, hash_element * hash_array) {
 
-    size_t array_size = hash_array[0].size;
-    unsigned int hash_value = get_hash(key, array_size);
-
     size_t length_key =  strlen(key);
     size_t length_value = strlen(value);
 
-    printf("length_key: %zu, length_value: %zu\n", length_key, length_value);
+    hash_element * returned_element = iterate(key, hash_array);
 
-    hash_element * current_element_pointer;
+    if (returned_element->value == NULL) {
+        /* No key found, create a new one.
+         *
+         * Allocate new memory for new key, check for null, copy string data,
+         * and ensure null termination. */
 
-    char ** current_key = NULL;
-    char ** current_value = NULL;
-    hash_element ** current_next = NULL;
-
-    current_element_pointer = &(hash_array[hash_value]);
-    while(current_element_pointer != NULL) {
-        /* Didn't find the key. */
-        current_value = &current_element_pointer->value;
-        current_key = &(current_element_pointer->key);
-        if (*current_value == NULL) {
-
-            /* Allocate memory for new key, check for null, copy string data,
-             * and ensure null termination. */
-
-            *current_key = malloc(sizeof(char)*length_key+1);
-            if (!*current_key) {
-                return -1;
-            }
-            memcpy(*current_key, key, length_key);
-            (*current_key)[length_key] = '\0';
-
-            /* Allocate memory for new value, check for null, copy string data,
-             * and ensure null termination. */
-
-            current_value = &(current_element_pointer->value);
-            *current_value = malloc(sizeof(char)*length_value+1);
-            if (!*current_value) {
-                return -1;
-            }
-            memcpy(*current_value, value, length_value);
-            (*current_value)[length_value] = '\0';
-
-            /* Create new last element. */
-            current_next = &(current_element_pointer->next);
-            *current_next = malloc(sizeof(hash_element));
-            if (!*current_next) {
-                return -1;
-            }
-            /* Set new struct elements to NULL. */
-            hash_element * next_hash = *current_next;
-            next_hash->next = NULL;
-            next_hash->key = NULL;
-            next_hash->value = NULL;
-
-            printf("hash: %d for %s returns value == NULL.\n", hash_value, key);
-            return 0;
-        /* Check if keys match. */
-        } else if (strcmp(*current_key, key) == 0) {
-            /* Replace the current value with the new value. */
-            *current_value = realloc(*current_value, length_value+1);
-            *current_value = memcpy(*current_value, value, length_value);
-            (*current_value)[length_value] = '\0';
-            return 0;
+        returned_element->key = malloc(sizeof(char)*length_key+1);
+        if (!returned_element->key) {
+            return -1;
         }
+        memcpy(returned_element->key, key, length_key);
+        (returned_element->key)[length_key] = '\0';
 
-        /* Continue with next element in linked list. */
-        current_element_pointer = *current_next;
+        /* Allocate memory for new value, check for null, copy string data,
+         * and ensure null termination. */
+
+        returned_element->value = malloc(sizeof(char)*length_value+1);
+        if (!returned_element->value) {
+            return -1;
+        }
+        memcpy(returned_element->value, value, length_value);
+        (returned_element->value)[length_value] = '\0';
+
+        /* Create new last element. */
+        returned_element->next = malloc(sizeof(hash_element));
+        if (returned_element->next) {
+            return -1;
+        }
+        /* Set new struct elements to NULL. */
+        hash_element * next_hash = returned_element->next;
+        next_hash->next = NULL;
+        next_hash->key = NULL;
+        next_hash->value = NULL;
+
+        return 0;
+    } else {
+        /* Key does exist, replace old value with new value. */
+        char ** current_value = &returned_element->value;
+        *current_value = realloc(*current_value, length_value+1);
+        *current_value = memcpy(*current_value, value, length_value);
+        (*current_value)[length_value] = '\0';
+        return 0;
     }
+
     return 0;
 }
