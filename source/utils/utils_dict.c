@@ -108,7 +108,7 @@ int dict_put(char * key, char * value, hash_element * hash_array) {
         /* Check if keys match. */
         } else if (strcmp(*current_key, key) == 0) {
             /* Replace the current value with the new value. */
-            *current_value = realloc(*current_value, length_value);
+            *current_value = realloc(*current_value, length_value+1);
             *current_value = memcpy(*current_value, value, length_value);
             (*current_value)[length_value] = '\0';
             return 0;
