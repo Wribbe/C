@@ -16,7 +16,7 @@ typedef struct hash_element {
 
 unsigned int get_hash(char * string, size_t array_size) {
     unsigned int hash_value = 0;
-    for(hash_value; *string != 0; string++) {
+    for(; *string != '\0'; string++) {
         hash_value = *string + hash_value * HASH_PRIME;
     }
     return hash_value % array_size;
