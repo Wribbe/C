@@ -17,8 +17,16 @@ INCLUDE_FLAGS := -I$(D_INC)
 
 .PHONY: clean
 .PHONY: all
+.PHONY: val
+.PHONY: test
 
 all: falling_pixels test_falling_pixels
+
+val: all
+	valgrind $(D_EXEC)/test_falling_pixels
+
+test: all
+	$(D_EXEC)/test_falling_pixels
 
 clean:
 	$(info Removing folder: $(D_OBJ).)
