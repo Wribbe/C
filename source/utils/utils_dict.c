@@ -81,6 +81,10 @@ int dict_put(char * key, char * value, hash_element * hash_array) {
             if (!current_element_pointer->next) {
                 return -1;
             }
+            /* Set new struct elements to NULL. */
+            current_element_pointer->next->next = NULL;
+            current_element_pointer->next->key = NULL;
+            current_element_pointer->next->value = NULL;
 
             printf("hash: %d for %s returns value == NULL.\n", hash_value, key);
             return 0;
