@@ -16,10 +16,16 @@ typedef struct hash_element {
 
 unsigned int get_hash(char * string, size_t array_size) {
     unsigned int hash_value = 0;
+    printf("Hashing %s, ", string);
     for(; *string != '\0'; string++) {
         hash_value = *string + hash_value * HASH_PRIME;
     }
-    return hash_value % array_size;
+    /* Shift range from 0->n to 0->(n-1) and then add one to shift it to 1->n
+     * to avoid the 0 position since that is where the size of the array is
+     * stored. */
+    hash_value = (hash_value % (array_size-1))+1;
+    printf("returning: %d\n", hash_value);
+    return hash_value;
 }
 
 int dict_define(hash_element ** array_head, size_t size) {
