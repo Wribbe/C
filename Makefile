@@ -25,6 +25,9 @@ all: falling_pixels test_falling_pixels
 val: all
 	valgrind --leak-check=full --show-leak-kinds=all $(D_EXEC)/test_falling_pixels
 
+valdump: all
+	valgrind --leak-check=full --show-leak-kinds=all $(D_EXEC)/test_falling_pixels > dump.txt 2>&1 && vim dump.txt
+
 test: all
 	$(D_EXEC)/test_falling_pixels
 
