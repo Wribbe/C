@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "utility_functions.h"
+
 #define DEFAULT_SIZE 256;
 #define HASH_PRIME 31;
 
