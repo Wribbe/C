@@ -176,7 +176,7 @@ static char * test_dynamic_array_allocation(void) {
 
 static char * test_utils_dictionary(void) {
 
-    size_t dict_size = 100;
+    size_t dict_size = 1;
 
     char * key = "";
     char * value = "";
@@ -185,29 +185,94 @@ static char * test_utils_dictionary(void) {
     size_t error_message_size = 512;
     char error[error_message_size];
 
-    dictionary * dict = dictionary_create(dict_size);
+    Dictionary * dict = dictionary_create(dict_size);
 
     key = "key";
     value = "value";
 
+    const char * error_format = "key: '%s' did not return value: '%s', got '%s' instead.";
+
+    /* Insert and check return for first key. */
     dictionary_put(key, value, dict);
     return_value = dictionary_get(key, dict);
-
-    const char * error_format = "key: '%s' did not return value: '%s', got '%s' instead.";
     snprintf(error, error_message_size, error_format, key, value, return_value);
+    mu_assert(error, strcmp(value, return_value) == 0);
 
-    //mu_assert(error, 1 == 2);
+    value = "other value";
+
+    /* Replace first value with other value. */
+    dictionary_put(key, value, dict);
+    return_value = dictionary_get(key, dict);
+    snprintf(error, error_message_size, error_format, key, value, return_value);
+    mu_assert(error, strcmp(value, return_value) == 0);
+
+    key = "other_key";
+    value = "other_key_value";
+
+    /* Insert second value and retrieve it. */
+    dictionary_put(key, value, dict);
+    return_value = dictionary_get(key, dict);
+    snprintf(error, error_message_size, error_format, key, value, return_value);
+    mu_assert(error, strcmp(value, return_value) == 0);
+
+    key = "key";
+    value = "other value";
+
+    /* Check value of the previous element. */
+    return_value = dictionary_get(key, dict);
+    snprintf(error, error_message_size, error_format, key, value, return_value);
+    mu_assert(error, strcmp(value, return_value) == 0);
+
+    /* Insert third key-value pair and check result. */
+    key = "third_key";
+    key = "third_value";
+
+    dictionary_put(key, value, dict);
+    return_value = dictionary_get(key, dict);
+    snprintf(error, error_message_size, error_format, key, value, return_value);
+    mu_assert(error, strcmp(value, return_value) == 0);
+
+    /* Re check the previous key-value pair. */
+    key = "other_key";
+    value = "other_key_value";
+
+    return_value = dictionary_get(key, dict);
+    snprintf(error, error_message_size, error_format, key, value, return_value);
+    mu_assert(error, strcmp(value, return_value) == 0);
 
     dictionary_free(dict);
     free(dict);
+
+    /* Create a string of unique keys and values, populate larger dict and
+     * check the returned values. */
+    size_t test_size = 200;
+    size_t second_dict_size = 20;
+
+    dict = dictionary_create(second_dict_size);
+
+    size_t test_char_size = 4;
+    char test_data[test_size][test_char_size];
+
+    for(size_t i = 0; i<test_size; i++) {
+        snprintf(test_data[i], test_char_size, "%zu", i);
+        dictionary_put(test_data[i], test_data[i], dict);
+    }
+
+    for(size_t i = 0; i<test_size; i++) {
+        mu_assert("Did not match.", strcmp(test_data[i], dictionary_get(test_data[i], dict)) == 0);
+    }
+
+    dictionary_free(dict);
+    free(dict);
+
     return 0;
 }
 
 static char * all_tests(void) {
-//    mu_run_test(test_glfw_init);
-//    mu_run_test(test_create_window);
-//    mu_run_test(test_compilation_error_without_graphics_flags);
-//    mu_run_test(test_utils_dictionary);
+    mu_run_test(test_glfw_init);
+    mu_run_test(test_create_window);
+    mu_run_test(test_compilation_error_without_graphics_flags);
+    mu_run_test(test_utils_dictionary);
     mu_run_test(test_dynamic_array_allocation);
     return 0;
 }
