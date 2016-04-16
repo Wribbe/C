@@ -75,13 +75,51 @@ static char * test_dynamic_array_allocation(void) {
 
     typedef struct dictionary {
         size_t size;
-        Node * node_list;
+        Node * node_array;
     } dictionary;
 
     dictionary * dict = calloc(sizeof(dictionary), dictionary_size);
-    dict->node_list = calloc(sizeof(Node), node_list_size);
+    dict->node_array = calloc(sizeof(Node), node_array_size);
 
-    free(dict->node_list);
+    /* Keys should be able to collide --> each node in node_array should be a
+     * linked list. Array as top level to provide O(1) lookup for hash-value.
+     *
+     * [[ ],[ ],[ ],...] <- node_array
+     *   |   |
+     *  [ ] [ ]
+     *       |
+     *      [ ]
+     *
+     */
+
+    size_t key_value_pairs = 4;
+
+    const char * keys[] = {
+        "one",
+        "two",
+        "three",
+        "four",
+    };
+
+    const char * values[] = {
+        "first",
+        "second",
+        "third",
+        "fourth",
+    };
+
+    Node * node_array = dict->node_array;
+
+    for (size_t i = 0; i<key_value_pairs; i++) {
+        node_array[i].key = keys[i];
+        node_array[i].value = values[i];
+    }
+
+    for (size_t i = 0; i < key_value_pairs; i++) {
+        printf("key: %s, value: %s\n", node_array[i].key, node_array[i].value);
+    }
+
+    free(dict->node_array);
     free(dict);
 
     return 0;
