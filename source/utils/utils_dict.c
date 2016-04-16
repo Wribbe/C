@@ -69,8 +69,9 @@ dictionary * iterate(char * key, dictionary * hash_array) {
     return current_element_pointer;
 }
 
-char * dictionary_get(char * key, dictionary * hash_array) {
-    return "Return string from dictionary_get.";
+char * dictionary_get(char * key, dictionary * dict) {
+    /* Return value of retrieved dictionary element. */
+    return iterate(key, dict)->value;
 }
 
 int dictionary_put(char * key, char * value, dictionary * hash_array) {
