@@ -5,6 +5,11 @@
 #define DEFAULT_SIZE 256;
 #define HASH_PRIME 31;
 
+/* TODO: Split the dictionary struct into a dictionary struct with a size and
+ * array of a secondary struct Node that composes the linked list if there are
+ * colliding keys.
+ */
+
 typedef struct dictionary {
     struct dictionary * next;
     char * key;
