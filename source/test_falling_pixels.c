@@ -64,7 +64,7 @@ static char * test_dynamic_array_allocation(void) {
     /* Check if assumptions about dynamic memory allocation and arrays in
      * combination with linked lists holds. */
 
-    size_t node_list_size = 10;
+    size_t node_array_size = 10;
     size_t dictionary_size = 1;
 
     typedef struct Node {
@@ -75,11 +75,11 @@ static char * test_dynamic_array_allocation(void) {
 
     typedef struct dictionary {
         size_t size;
-        Node * node_array;
+        Node ** node_array;
     } dictionary;
 
     dictionary * dict = calloc(sizeof(dictionary), dictionary_size);
-    dict->node_array = calloc(sizeof(Node), node_array_size);
+    dict->node_array = calloc(sizeof(Node *), node_array_size);
 
     /* Keys should be able to collide --> each node in node_array should be a
      * linked list. Array as top level to provide O(1) lookup for hash-value.
@@ -108,15 +108,63 @@ static char * test_dynamic_array_allocation(void) {
         "fourth",
     };
 
-    Node * node_array = dict->node_array;
+    Node ** node_array = dict->node_array;
+    Node * new_head = NULL;
 
     for (size_t i = 0; i<key_value_pairs; i++) {
-        node_array[i].key = keys[i];
-        node_array[i].value = values[i];
+        new_head = malloc(sizeof(Node));
+        new_head->next = node_array[i];
+        node_array[i] = new_head;
+
+        new_head->key = malloc(sizeof(char)*(strlen(keys[i])+1));
+        memcpy(new_head->key, keys[i], strlen(keys[i]));
+        new_head->key[strlen(keys[i])] = '\0';
+
+        new_head->value = malloc(sizeof(char)*(strlen(values[i])+1));
+        memcpy(new_head->value, values[i], strlen(values[i]));
+        new_head->value[strlen(values[i])] = '\0';
+
+        for(size_t j = 0; j<key_value_pairs; j++) {
+            new_head = malloc(sizeof(Node));
+            new_head->next = node_array[i];
+            node_array[i] = new_head;
+
+            new_head->key = malloc(sizeof(char)*(strlen(keys[j])+1));
+            memcpy(new_head->key, keys[j], strlen(keys[j]));
+            new_head->key[strlen(keys[j])] = '\0';
+
+            new_head->value = malloc(sizeof(char)*(strlen(values[j])+1));
+            memcpy(new_head->value, values[j], strlen(values[j]));
+            new_head->value[strlen(values[j])] = '\0';
+        }
     }
 
-    for (size_t i = 0; i < key_value_pairs; i++) {
-        printf("key: %s, value: %s\n", node_array[i].key, node_array[i].value);
+    int print = 0;
+
+    if (print) {
+        Node * current_node = NULL;
+        for (size_t i = 0; i<key_value_pairs; i++) {
+            current_node = node_array[i];
+            printf("key: %s, value: %s.\n", current_node->key, current_node->value);
+            current_node = current_node->next;
+            while(current_node != NULL) {
+                printf("  key: %s, value: %s.\n", current_node->key, current_node->value);
+                current_node = current_node->next;
+            }
+        }
+    }
+
+    Node * next_node = NULL;
+    Node * current_node = NULL;
+    for (size_t i=0; i<key_value_pairs; i++) {
+        current_node = dict->node_array[i];
+        while(current_node != NULL) {
+            next_node = current_node->next;
+            free(current_node->key);
+            free(current_node->value);
+            free(current_node);
+            current_node = next_node;
+        }
     }
 
     free(dict->node_array);
