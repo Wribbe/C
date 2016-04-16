@@ -23,7 +23,7 @@ INCLUDE_FLAGS := -I$(D_INC)
 all: falling_pixels test_falling_pixels
 
 val: all
-	valgrind $(D_EXEC)/test_falling_pixels
+	valgrind --leak-check=full --show-leak-kinds=all $(D_EXEC)/test_falling_pixels
 
 test: all
 	$(D_EXEC)/test_falling_pixels
