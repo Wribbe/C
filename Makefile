@@ -8,12 +8,21 @@ SOUND_FLAGS :=  -lportaudio -lasound
 # Tracked folders.
 D_SRC := source
 D_INC := include
+D_SUP := valgrind_suppression
 
 # Generated folders.
 D_EXEC := executables
 D_OBJ := objects
 
 INCLUDE_FLAGS := -I$(D_INC)
+
+# Supression files.
+SUP_MEM := $(D_SUP)/memory_leak_suppression.txt
+
+# Command list.
+SUP_FLAGS := --suppressions=$(SUP_MEM)
+MEM_FLAGS := --leak-check=full --show-leak-kinds=all
+DUMP_AND_OPEN := > dump.txt 2>&1 && vim dump.txt
 
 .PHONY: clean
 .PHONY: all
@@ -23,10 +32,13 @@ INCLUDE_FLAGS := -I$(D_INC)
 all: falling_pixels test_falling_pixels
 
 val: all
-	valgrind --leak-check=full --show-leak-kinds=all $(D_EXEC)/test_falling_pixels
+	valgrind $(SUP_FLAGS) $(D_EXEC)/test_falling_pixels
+
+valmem: all
+	valgrind $(SUP_FLAGS) $(MEM_FLAGS) $(D_EXEC)/test_falling_pixels
 
 valdump: all
-	valgrind --leak-check=full --show-leak-kinds=all $(D_EXEC)/test_falling_pixels > dump.txt 2>&1 && vim dump.txt
+	valgrind $(SUP_FLAGS) $(MEM_FLAGS) $(D_EXEC)/test_falling_pixels $(DUMP_AND_OPEN)
 
 test: all
 	$(D_EXEC)/test_falling_pixels
