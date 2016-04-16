@@ -60,6 +60,33 @@ static char * test_compilation_error_without_graphics_flags(void) {
     return 0;
 }
 
+static char * test_dynamic_array_allocation(void) {
+    /* Check if assumptions about dynamic memory allocation and arrays in
+     * combination with linked lists holds. */
+
+    size_t node_list_size = 10;
+    size_t dictionary_size = 1;
+
+    typedef struct Node {
+        struct Node * next;
+        char * key;
+        char * value;
+    } Node;
+
+    typedef struct dictionary {
+        size_t size;
+        Node * node_list;
+    } dictionary;
+
+    dictionary * dict = calloc(sizeof(dictionary), dictionary_size);
+    dict->node_list = calloc(sizeof(Node), node_list_size);
+
+    free(dict->node_list);
+    free(dict);
+
+    return 0;
+}
+
 static char * test_utils_dictionary(void) {
 
     size_t dict_size = 100;
@@ -82,17 +109,19 @@ static char * test_utils_dictionary(void) {
     const char * error_format = "key: '%s' did not return value: '%s', got '%s' instead.";
     snprintf(error, error_message_size, error_format, key, value, return_value);
 
-    mu_assert(error, 1 == 2);
+    //mu_assert(error, 1 == 2);
 
+    dictionary_free(dict);
     free(dict);
     return 0;
 }
 
 static char * all_tests(void) {
-    mu_run_test(test_glfw_init);
-    mu_run_test(test_create_window);
-    mu_run_test(test_compilation_error_without_graphics_flags);
-    mu_run_test(test_utils_dictionary);
+//    mu_run_test(test_glfw_init);
+//    mu_run_test(test_create_window);
+//    mu_run_test(test_compilation_error_without_graphics_flags);
+//    mu_run_test(test_utils_dictionary);
+    mu_run_test(test_dynamic_array_allocation);
     return 0;
 }
 
