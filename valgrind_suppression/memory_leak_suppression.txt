@@ -1,0 +1,40 @@
+{
+   glfwInit-lost-leak
+   Memcheck:Leak
+   match-leak-kinds: definite
+   ...
+   fun:glfwInit
+   ...
+}
+{
+   glfwInit-leak
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   ...
+   fun:glfwInit
+   ...
+}
+{
+   glfwPlatformInit-leak
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   ...
+   fun:_glfwPlatformInit
+   ...
+}
+{
+   libdl-leak
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   ...
+   obj:/usr/lib/ld-2.23.so
+   ...
+}
+{
+   XSupportsLocale-leak
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   ...
+   fun:XSupportsLocale
+   ...
+}
