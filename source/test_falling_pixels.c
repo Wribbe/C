@@ -275,13 +275,16 @@ char * test_config_parser(void) {
 
     size_t error_buffer_size = 256;
 
-    #define value_buffer_size 60
+    #define value_buffer_size 128
 
     char error_buffer[error_buffer_size];
 
     const char control_values[][2][value_buffer_size] = {
         {"FIRST_KEY","FIRST_VALUE"},
-        {"SECOND_KEY","SECOND_VALUE"}
+        {"SECOND_KEY","SECOND_VALUE"},
+        {"THIRD_KEY","THIRD_VALUE"},
+        {"FORTH KEY","FORTH   VALUE"},
+        {"FIFTH #KEY", "FIFTH###VALUE"},
     };
 
     size_t num_control_values =  sizeof(control_values)/2/value_buffer_size;
