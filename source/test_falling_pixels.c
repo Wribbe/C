@@ -268,7 +268,52 @@ char * test_utils_dictionary(void) {
     return 0;
 }
 
+char * test_config_parser(void) {
 
+    const char * config_filename = "config/test/minimal_test_config.txt";
+    Dictionary * config_dict = parse_config(config_filename);
+
+    size_t error_buffer_size = 256;
+
+    #define value_buffer_size 60
+
+    char error_buffer[error_buffer_size];
+
+    const char control_values[][2][value_buffer_size] = {
+        {"FIRST_KEY","FIRST_VALUE"},
+        {"SECOND_KEY","SECOND_VALUE"}
+    };
+
+    size_t num_control_values =  sizeof(control_values)/2/value_buffer_size;
+
+    const char * error_format = "Key '%s' did not return '%s', got '%s' instead.";
+
+    const char * current_key = NULL;
+    const char * current_value = NULL;
+    char * current_return = NULL;
+
+    for(size_t i=0; i<num_control_values; i++) {
+
+        current_key = control_values[i][0];
+        current_value = control_values[i][1];
+        current_return = dictionary_get(current_key, config_dict);
+
+        if(current_return == NULL) {
+            current_return = "NULL";
+        }
+
+        snprintf(error_buffer, error_buffer_size, error_format, current_key, current_value, current_return);
+
+        mu_assert(error_buffer, strcmp(current_value, current_return) == 0);
+    }
+
+    dictionary_free(config_dict);
+    free(config_dict);
+
+    #undef value_buffer_size
+
+    return 0;
+}
 
 char * all_tests(void) {
     mu_run_test(test_glfw_init);
@@ -276,6 +321,7 @@ char * all_tests(void) {
     mu_run_test(test_compilation_error_without_graphics_flags);
     mu_run_test(test_utils_dictionary);
     mu_run_test(test_dynamic_array_allocation);
+    mu_run_test(test_config_parser);
     return 0;
 }
 

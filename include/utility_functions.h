@@ -16,4 +16,8 @@ char * dictionary_get(const char * key, Dictionary * dict);
 
 void dictionary_free(Dictionary * dict);
 
+/* Configure parser */
+
+Dictionary * parse_config(char * config_filename);
+
 #endif
