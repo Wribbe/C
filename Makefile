@@ -40,6 +40,9 @@ valdump: all
 test: all
 	$(D_EXEC)/test_falling_pixels
 
+run: all
+	$(D_EXEC)/falling_pixels
+
 clean:
 	$(info Removing folder: $(D_OBJ).)
 	@rm -rf $(D_OBJ)
