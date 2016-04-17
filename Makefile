@@ -45,11 +45,11 @@ run: all
 
 clean:
 	$(info Removing folder: $(D_OBJ).)
-	@rm -rf $(D_OBJ)
+	-@rm -r $(D_OBJ)
 	$(info Removing folder: $(D_EXEC).)
-	@rm -rf $(D_EXEC)
+	-@rm -r $(D_EXEC)
 	$(info Removing vgcore files.)
-	@rm -rf vgcore*
+	-@rm -r vgcore*
 	$(info Done.)
 
 falling_pixels: $(D_OBJ)/falling_pixels.o $(D_OBJ)/utility_functions.o | mk_$(D_EXEC)
