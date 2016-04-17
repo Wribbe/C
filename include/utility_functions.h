@@ -1,6 +1,9 @@
 #ifndef UTILITY_FUNCTIONS_DEFINED
 #define UTILITY_FUNCTIONS_DEFINED
 
+/* Macro definitions. */
+#define ERROR(message) do { fprintf(stderr, "ERROR: [%s:%s]: %s\n", __FILE__,__func__,message); return -1; } while(0)
+
 typedef struct Dictionary Dictionary;
 
 Dictionary * dictionary_create(size_t dict_size);
@@ -19,5 +22,7 @@ void dictionary_free(Dictionary * dict);
 /* Configure parser */
 
 Dictionary * parse_config(const char * config_filename);
+
+
 
 #endif

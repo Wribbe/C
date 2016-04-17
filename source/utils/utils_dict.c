@@ -131,7 +131,7 @@ int dictionary_put(const char * key, const char * value, Dictionary * dictionary
 
         new_head->key = malloc(sizeof(char)*(length_key+1));
         if (!new_head->key) {
-            return -1;
+            ERROR("Could not allocate new_head->key");
         }
         memcpy(new_head->key, key, length_key);
         (new_head->key)[length_key] = '\0';
@@ -141,19 +141,20 @@ int dictionary_put(const char * key, const char * value, Dictionary * dictionary
 
         new_head->value = malloc(sizeof(char)*(length_value+1));
         if (!new_head->value) {
-            return -1;
+            ERROR("Could not allocate new_head->value");
         }
         memcpy(new_head->value, value, length_value);
         (new_head->value)[length_value] = '\0';
 
-        return 0;
     } else {
         /* Key does exist, replace old value with new value. */
         char ** current_value = &returned_node->value;
         *current_value = realloc(*current_value, length_value+1);
+        if (!*current_value) {
+            ERROR("Could not realloc current value");
+        }
         *current_value = memcpy(*current_value, value, length_value);
         (*current_value)[length_value] = '\0';
-        return 0;
     }
 
     return 0;
