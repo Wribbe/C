@@ -28,23 +28,25 @@ int put_line_in_dictionary(const char * line, Dictionary * dict) {
     memcpy(temp_string, line, length_line);
     temp_string[length_line] = '\0';
 
+    /* Use strtok to split into key-value pairs. */
     const char * key = strtok(temp_string, DELIMITER_STR);
     if (key == NULL) {
-        return -1;
+        ERROR("Key is NULL when splitting key and value when parsing config.");
     }
     const char * value = strtok(NULL, DELIMITER_STR);
     if (value == NULL) {
-        return -1;
+        ERROR("Value is NULL when splitting key and value when parsing config.");
     }
 
+    /* Get length of key and value. */
     size_t length_key = strlen(key);
     size_t length_value = strlen(value);
 
+    /* Create and initialize stripped key and value char arrays to avoid
+     * initialization error in valgrind. */
     char stripped_key[length_key+1];
     char stripped_value[length_value+1];
 
-    /* Initialize stripped key and value to avoid initialization error in
-     * valgrind. */
     for (size_t i=0; i<length_key; i++) {
         stripped_key[i] = '\0';
     }
@@ -53,6 +55,8 @@ int put_line_in_dictionary(const char * line, Dictionary * dict) {
         stripped_value[i] = '\0';
     }
 
+    /* String any leading spaces to allow assignment to be written as KEY =
+     * VALUE and not only KEY=VALUE. */
     key = strip_leading_whitespace(key);
     value = strip_leading_whitespace(value);
 
@@ -60,6 +64,18 @@ int put_line_in_dictionary(const char * line, Dictionary * dict) {
     size_t current_pos = 0;
     bool string_literal = false;
 
+    /* TODO: DRY! This could probably be tossed into a functino. */
+    /* Parse the stripped line and copy it to char arrays one character at a
+     * time.
+     * Rules:
+     *   * If string_literal is true, everything goes until the string is
+     *     matched by the next '"' character.
+     *   * If string_literal is false, break parsing if:
+     *      - The current character is a white-space character as defined by
+     *        the isspace() function.
+     *      - The current character is the COMMENT_CHAR character, which allows
+     *        inline comments.
+     */
     for(i=0; (string_literal || (!isspace(key[i]) && key[i] != COMMENT_CHAR)); i++) {
         if (key[i] == '"') {
             string_literal = !string_literal;
@@ -75,6 +91,7 @@ int put_line_in_dictionary(const char * line, Dictionary * dict) {
     }
     stripped_key[current_pos] = '\0';
 
+    /* See above. */
     current_pos = 0;
     string_literal = false;
     for(i=0; (string_literal || (!isspace(value[i]) && value[i] != COMMENT_CHAR)); i++) {
