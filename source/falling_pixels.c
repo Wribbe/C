@@ -28,8 +28,8 @@ int main(void) {
     int width = to_int(dictionary_get("WIDTH", config));
     int height = to_int(dictionary_get("HEIGHT", config));
     const char * title = dictionary_get("TITLE", config);
-    GLFWmonitor * monitor = NULL;
-    GLFWwindow * share = NULL;
+    GLFWmonitor * monitor = (GLFWmonitor*)dictionary_get("MONITOR", config);
+    GLFWwindow * share = (GLFWwindow*)dictionary_get("SHARE", config);
 
     GLFWwindow * window = glfwCreateWindow(width, height, title, monitor, share);
 
