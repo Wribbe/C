@@ -10,9 +10,9 @@ Dictionary * dictionary_create(size_t dict_size);
  *   0: everything went fine.
  *  -1: could not allocate the necessary memory.
  */
-int dictionary_put(char * key, char * value, Dictionary * dict);
+int dictionary_put(const char * key, const char * value, Dictionary * dict);
 
-char * dictionary_get(char * key, Dictionary * dict);
+char * dictionary_get(const char * key, Dictionary * dict);
 
 void dictionary_free(Dictionary * dict);
 

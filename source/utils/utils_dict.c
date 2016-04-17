@@ -22,7 +22,7 @@ size_t length_array(Dictionary * dictionary) {
     return dictionary->size;
 }
 
-unsigned int get_hash(char * string, size_t array_size) {
+unsigned int get_hash(const char * string, size_t array_size) {
     unsigned int hash_value = 0;
     for(; *string != '\0'; string++) {
         hash_value = *string + hash_value * HASH_PRIME;
@@ -50,7 +50,7 @@ Dictionary * dictionary_create(size_t size) {
     return dictionary;
 }
 
-Node * iterate(char * key, Dictionary * dictionary) {
+Node * iterate(const char * key, Dictionary * dictionary) {
     /* Iterate over all elements until a matching key is found or the end of
      * the liked list is reached. Return that hash element at that position. */
 
@@ -97,7 +97,7 @@ void dictionary_free(Dictionary * dict) {
     free(dict->node_array);
 }
 
-char * dictionary_get(char * key, Dictionary * dict) {
+char * dictionary_get(const char * key, Dictionary * dict) {
     /* Return value of retrieved dictionary element or NULL if nothing was
      * found.
      * */
@@ -108,7 +108,7 @@ char * dictionary_get(char * key, Dictionary * dict) {
     return returned_node->value;
 }
 
-int dictionary_put(char * key, char * value, Dictionary * dictionary) {
+int dictionary_put(const char * key, const char * value, Dictionary * dictionary) {
 
     size_t length_key =  strlen(key);
     size_t length_value = strlen(value);
