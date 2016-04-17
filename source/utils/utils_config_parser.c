@@ -9,6 +9,8 @@
 #define COMMENT_CHAR '#'
 #define DELIMITER_STR "="
 
+/* TODO: Split put_line_in_dictionary function into smaller functions. */
+
 const char * strip_leading_whitespace(const char * string) {
     /* Iterate over spaces until character is found, returned new pointer
      * position.
