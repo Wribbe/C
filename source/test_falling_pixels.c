@@ -178,9 +178,9 @@ char * test_utils_dictionary(void) {
 
     size_t dict_size = 1;
 
-    char * key = "";
-    char * value = "";
-    char * return_value = "";
+    const char * key = "";
+    const char * value = "";
+    const char * return_value = "";
 
     size_t error_message_size = 512;
     char error[error_message_size];
@@ -290,7 +290,7 @@ char * test_config_parser(void) {
 
     const char * current_key = NULL;
     const char * current_value = NULL;
-    char * current_return = NULL;
+    const char * current_return = NULL;
 
     for(size_t i=0; i<num_control_values; i++) {
 

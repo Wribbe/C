@@ -18,6 +18,6 @@ void dictionary_free(Dictionary * dict);
 
 /* Configure parser */
 
-Dictionary * parse_config(char * config_filename);
+Dictionary * parse_config(const char * config_filename);
 
 #endif

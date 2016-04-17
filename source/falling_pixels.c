@@ -6,7 +6,7 @@
 #define UNUSED(x) (void)x
 
 
-void error(char * message) {
+void error(const char * message) {
     fprintf(stderr, "ERROR: %s, aborting.\n", message);
     exit(EXIT_FAILURE);
 }

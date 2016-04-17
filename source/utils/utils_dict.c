@@ -57,7 +57,7 @@ Node * iterate(const char * key, Dictionary * dictionary) {
     unsigned int hash_value = get_hash(key, length_array(dictionary));
     Node * current_node = dictionary->node_array[hash_value];
 
-    char * current_key = "";
+    const char * current_key = "";
 
     while(current_node != NULL) {
 
