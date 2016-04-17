@@ -2,6 +2,7 @@
 #include <stdio.h>
 
 #include "falling_pixels.h"
+#include "utility_functions.h"
 
 #define UNUSED(x) (void)x
 
@@ -11,15 +12,22 @@ void error(const char * message) {
     exit(EXIT_FAILURE);
 }
 
+int to_int(const char * string) {
+    return strtol(string, NULL, 10);
+}
+
 int main(void) {
 
     if (!glfwInit()) {
         error("Could not load GLFW library");
     }
 
-    int width = 640;
-    int height = 480;
-    const char * title = "Falling Pixels.";
+    const char * config_path = "config/falling_pixels.txt";
+    Dictionary * config = parse_config(config_path);
+
+    int width = to_int(dictionary_get("WIDTH", config));
+    int height = to_int(dictionary_get("HEIGHT", config));
+    const char * title = dictionary_get("TITLE", config);
     GLFWmonitor * monitor = NULL;
     GLFWwindow * share = NULL;
 
@@ -44,4 +52,7 @@ int main(void) {
         glfwPollEvents();
 
     }
+
+    glfwTerminate();
+    dictionary_free(config);
 }

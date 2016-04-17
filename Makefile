@@ -52,8 +52,8 @@ clean:
 	@rm -rf vgcore*
 	$(info Done.)
 
-falling_pixels: $(D_OBJ)/falling_pixels.o | mk_$(D_EXEC)
-	$(CC) -o $(D_EXEC)/falling_pixels $(D_OBJ)/falling_pixels.o $(CFLAGS) $(GRAPHICS_FLAGS)
+falling_pixels: $(D_OBJ)/falling_pixels.o $(D_OBJ)/utility_functions.o | mk_$(D_EXEC)
+	$(CC) -o $(D_EXEC)/falling_pixels $(D_OBJ)/falling_pixels.o $(D_OBJ)/utility_functions.o $(CFLAGS) $(GRAPHICS_FLAGS)
 
 $(D_OBJ)/falling_pixels.o: $(D_SRC)/falling_pixels.c $(D_INC)/falling_pixels.h $(D_INC)/utility_functions.h | mk_$(D_OBJ)
 	$(CC) -c $(D_SRC)/falling_pixels.c -o $(D_OBJ)/falling_pixels.o \
