@@ -76,17 +76,17 @@ int put_line_in_dictionary(const char * line, Dictionary * dict) {
      *      - The current character is the COMMENT_CHAR character, which allows
      *        inline comments.
      */
-    for(i=0; (string_literal || (!isspace(key[i]) && key[i] != COMMENT_CHAR)); i++) {
+    for(i=0; (string_literal || (!isspace(key[i]) && key[i] != COMMENT_CHAR && key[i] != '\0')); i++) {
         if (key[i] == '"') {
             string_literal = !string_literal;
             continue;
         }
         stripped_key[current_pos++] = key[i];
-        if (string_literal && i > length_key) {
+        if (string_literal && current_pos > length_key) {
             ERROR("Reading outside key length, unmatched '\"'?");
         }
     }
-    if (i == 0) {
+    if (current_pos == 0) {
         ERROR("size of key is 0.");
     }
     stripped_key[current_pos] = '\0';
@@ -94,17 +94,17 @@ int put_line_in_dictionary(const char * line, Dictionary * dict) {
     /* See above. */
     current_pos = 0;
     string_literal = false;
-    for(i=0; (string_literal || (!isspace(value[i]) && value[i] != COMMENT_CHAR)); i++) {
+    for(i=0; (string_literal || (!isspace(value[i]) && value[i] != COMMENT_CHAR && value[i] != '\0')); i++) {
         if (value[i] == '"') {
             string_literal = !string_literal;
             continue;
         }
         stripped_value[current_pos++] = value[i];
-        if (string_literal && i > length_value) {
+        if (string_literal && current_pos > length_value) {
             ERROR("Reading outside value length, unmatched '\"'?");
         }
     }
-    if (i == 0) {
+    if (current_pos == 0) {
         ERROR("size of value is 0.");
     }
     stripped_value[current_pos] = '\0';
