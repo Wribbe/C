@@ -241,7 +241,6 @@ char * test_utils_dictionary(void) {
     mu_assert(error, strcmp(value, return_value) == 0);
 
     dictionary_free(dict);
-    free(dict);
 
     /* Create a string of unique keys and values, populate larger dict and
      * check the returned values. */
@@ -263,7 +262,6 @@ char * test_utils_dictionary(void) {
     }
 
     dictionary_free(dict);
-    free(dict);
 
     return 0;
 }
@@ -311,7 +309,6 @@ char * test_config_parser(void) {
     }
 
     dictionary_free(config_dict);
-    free(config_dict);
 
     #undef value_buffer_size
 

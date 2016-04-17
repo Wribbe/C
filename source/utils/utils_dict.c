@@ -95,6 +95,7 @@ void dictionary_free(Dictionary * dict) {
         }
     }
     free(dict->node_array);
+    free(dict);
 }
 
 char * dictionary_get(const char * key, Dictionary * dict) {
