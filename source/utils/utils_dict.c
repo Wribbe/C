@@ -36,7 +36,7 @@ Dictionary * dictionary_create(size_t size) {
      * If size is <= 0, use DEFAULT_SIZE.
      */
     size_t array_size = 0;
-    if (size <= 0) {
+    if (size == 0) { /* size_t can't be less than 0. */
         array_size = DEFAULT_SIZE;
     } else {
         array_size = size;
