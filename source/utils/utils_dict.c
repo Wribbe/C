@@ -112,7 +112,10 @@ char * dictionary_get(const char * key, Dictionary * dict) {
 int dictionary_put(const char * key, const char * value, Dictionary * dictionary) {
 
     size_t length_key = strlen(key);
-    size_t length_value = strlen(value);
+    size_t length_value = NULL;
+    if (value != NULL) {
+        length_value = strlen(value);
+    }
 
     Node * returned_node = iterate(key, dictionary);
 
@@ -140,22 +143,31 @@ int dictionary_put(const char * key, const char * value, Dictionary * dictionary
         /* Allocate memory for new value, check for null, copy string data,
          * and ensure null termination. */
 
-        new_head->value = malloc(sizeof(char)*(length_value+1));
-        if (!new_head->value) {
-            ERROR("Could not allocate new_head->value");
+        if (value == NULL) {
+            new_head->value = NULL;
+        } else {
+            new_head->value = malloc(sizeof(char)*(length_value+1));
+            if (!new_head->value) {
+                ERROR("Could not allocate new_head->value");
+            }
+            memcpy(new_head->value, value, length_value);
+            (new_head->value)[length_value] = '\0';
         }
-        memcpy(new_head->value, value, length_value);
-        (new_head->value)[length_value] = '\0';
 
     } else {
         /* Key does exist, replace old value with new value. */
         char ** current_value = &returned_node->value;
-        *current_value = realloc(*current_value, length_value+1);
-        if (!*current_value) {
-            ERROR("Could not realloc current value");
+        if (value == NULL) {
+            free(*current_value);
+            returned_node->value = NULL;
+        } else {
+            *current_value = realloc(*current_value, length_value+1);
+            if (!*current_value) {
+                ERROR("Could not realloc current value");
+            }
+            *current_value = memcpy(*current_value, value, length_value);
+            (*current_value)[length_value] = '\0';
         }
-        *current_value = memcpy(*current_value, value, length_value);
-        (*current_value)[length_value] = '\0';
     }
 
     return 0;

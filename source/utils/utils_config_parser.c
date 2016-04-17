@@ -104,14 +104,17 @@ int put_line_in_dictionary(const char * line, Dictionary * dict) {
             ERROR("Reading outside value length, unmatched '\"'?");
         }
     }
-    if (current_pos == 0) {
-        ERROR("size of value is 0.");
+    if (current_pos != 0) {
+        stripped_value[current_pos] = '\0';
     }
-    stripped_value[current_pos] = '\0';
 
     free(temp_string);
 
-    return dictionary_put(stripped_key, stripped_value, dict);
+    if (current_pos != 0) {
+        return dictionary_put(stripped_key, stripped_value, dict);
+    } else {
+        return dictionary_put(stripped_key, NULL, dict);
+    }
 }
 
 Dictionary * parse_config(const char * config_path) {
