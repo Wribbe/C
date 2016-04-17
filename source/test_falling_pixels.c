@@ -283,6 +283,7 @@ char * test_config_parser(void) {
         {"THIRD_KEY","THIRD_VALUE"},
         {"FORTH KEY","FORTH   VALUE"},
         {"FIFTH #KEY", "FIFTH###VALUE"},
+        {"NULL_KEY", "NULL"},
     };
 
     size_t num_control_values =  sizeof(control_values)/2/value_buffer_size;
@@ -299,14 +300,23 @@ char * test_config_parser(void) {
         current_value = control_values[i][1];
         current_return = dictionary_get(current_key, config_dict);
 
-        if(current_return == NULL) {
+        if(current_return == NULL && strcmp(current_value, "NULL") != 0) {
             current_return = "NULL";
         }
 
         snprintf(error_buffer, error_buffer_size, error_format, current_key, current_value, current_return);
 
-        mu_assert(error_buffer, strcmp(current_value, current_return) == 0);
+        if (strcmp(current_value, "NULL") == 0) {
+            mu_assert(error_buffer, current_return == NULL);
+        } else {
+            mu_assert(error_buffer, strcmp(current_value, current_return) == 0);
+        }
     }
+
+    /* Test that NULL is returned when a value is replaced with NULL. */
+    dictionary_put("FIRST_KEY", NULL, config_dict);
+    char * return_string = dictionary_get("FIRST_KEY", config_dict);
+    mu_assert("Writing over key with NULL does not return NULL.", return_string == NULL);
 
     dictionary_free(config_dict);
 
