@@ -23,7 +23,6 @@ size_t length_array(Dictionary * dictionary) {
 }
 
 unsigned int get_hash(char * string, size_t array_size) {
-    //printf("Hashing %s\n", string);
     unsigned int hash_value = 0;
     for(; *string != '\0'; string++) {
         hash_value = *string + hash_value * HASH_PRIME;
