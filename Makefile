@@ -1,7 +1,7 @@
 
 CC = cc
 
-CFLAGS := -Wall -Wextra -pedantic -g
+CFLAGS := -Wall -Wextra -pedantic -g -Wwrite-strings
 GRAPHICS_FLAGS  := -lGLEW -lglfw3 -lGL -lX11 -lXrandr -lXi -lXxf86vm -lm -ldl -lXinerama -lXcursor -lrt -lpthread
 SOUND_FLAGS :=  -lportaudio -lasound
 
