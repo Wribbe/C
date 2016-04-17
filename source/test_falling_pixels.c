@@ -8,12 +8,12 @@
 
 int tests_run = 0;
 
-static char * test_glfw_init(void) {
+char * test_glfw_init(void) {
     mu_assert("Could not load GLFW.", glfwInit() != 0);
     return 0;
 }
 
-static char * test_create_window(void) {
+char * test_create_window(void) {
 
     int width = 640;
     int height = 480;
@@ -27,7 +27,7 @@ static char * test_create_window(void) {
     return 0;
 }
 
-static char * test_compilation_error_without_graphics_flags(void) {
+char * test_compilation_error_without_graphics_flags(void) {
 
     const char * SOURCE_PATH = "source/dummy_glfw_compilation_test.c";
     const char * CFLAGS = "-Wall -Wextra -pedantic -g";
@@ -61,7 +61,7 @@ static char * test_compilation_error_without_graphics_flags(void) {
     return 0;
 }
 
-static char * test_dynamic_array_allocation(void) {
+char * test_dynamic_array_allocation(void) {
     /* Check if assumptions about dynamic memory allocation and arrays in
      * combination with linked lists holds. */
 
@@ -174,7 +174,7 @@ static char * test_dynamic_array_allocation(void) {
     return 0;
 }
 
-static char * test_utils_dictionary(void) {
+char * test_utils_dictionary(void) {
 
     size_t dict_size = 1;
 
@@ -268,7 +268,9 @@ static char * test_utils_dictionary(void) {
     return 0;
 }
 
-static char * all_tests(void) {
+
+
+char * all_tests(void) {
     mu_run_test(test_glfw_init);
     mu_run_test(test_create_window);
     mu_run_test(test_compilation_error_without_graphics_flags);
