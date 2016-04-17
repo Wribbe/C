@@ -24,10 +24,7 @@ SUP_FLAGS := --suppressions=$(SUP_MEM)
 MEM_FLAGS := --leak-check=full --show-leak-kinds=all
 DUMP_AND_OPEN := > dump.txt 2>&1 && vim dump.txt
 
-.PHONY: clean
 .PHONY: all
-.PHONY: val
-.PHONY: test
 
 all: falling_pixels test_falling_pixels
 
