@@ -112,7 +112,7 @@ char * dictionary_get(const char * key, Dictionary * dict) {
 int dictionary_put(const char * key, const char * value, Dictionary * dictionary) {
 
     size_t length_key = strlen(key);
-    size_t length_value = NULL;
+    size_t length_value = 0;
     if (value != NULL) {
         length_value = strlen(value);
     }
