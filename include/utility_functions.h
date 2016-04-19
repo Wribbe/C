@@ -23,6 +23,10 @@ void dictionary_free(Dictionary * dict);
 
 Dictionary * parse_config(const char * config_filename);
 
+/* Math related functions */
 
+typedef float mat4[4][4];
+
+void mat4_mul(mat4 res, mat4 A, mat4 B);
 
 #endif

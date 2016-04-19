@@ -325,6 +325,10 @@ char * test_config_parser(void) {
     return 0;
 }
 
+char * test_maths(void) {
+    mu_assert("ERROR", 1==2);
+}
+
 char * all_tests(void) {
     mu_run_test(test_glfw_init);
     mu_run_test(test_create_window);
@@ -332,6 +336,7 @@ char * all_tests(void) {
     mu_run_test(test_utils_dictionary);
     mu_run_test(test_dynamic_array_allocation);
     mu_run_test(test_config_parser);
+    mu_run_test(test_maths);
     return 0;
 }
 
