@@ -12,6 +12,15 @@ GLfloat vertices[] = {
      0.5f,  0.5f, 0.0f,
 };
 
+void key_callback(GLFWwindow * window, int key, int scancode, int action, int mods) {
+    UNUSED(scancode);
+    UNUSED(mods);
+
+    if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) {
+        glfwSetWindowShouldClose(window, GL_TRUE);
+    }
+}
+
 void error(const char * message) {
     fprintf(stderr, "ERROR: %s, aborting.\n", message);
     exit(EXIT_FAILURE);
@@ -133,6 +142,7 @@ int main(void) {
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
+    glfwSetKeyCallback(window, key_callback);
 
     while(!glfwWindowShouldClose(window)) {
 
