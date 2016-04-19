@@ -22,7 +22,7 @@ char * test_create_window(void) {
     GLFWwindow * share = NULL;
 
     GLFWwindow * window = glfwCreateWindow(width, height, title, monitor, share);
-    mu_assert("Could not initialize window.", window != NULL);
+    mu_assert("Could not initialize window.", window);
     glfwTerminate();
     return 0;
 }
