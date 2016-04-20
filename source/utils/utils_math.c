@@ -127,7 +127,84 @@ void mat2_set(mat2 dest, mat2 source) {
 
 /* Vectors. */
 
+void vec_iteration(float * dest, float * a, float * b, size_t vec_size, float (*op)(float a, float b)) {
+    for(size_t i = 0; i<vec_size; i++) {
+        dest[i] = op(a[i], b[i]);
+    }
+}
+
+void vec4_add(vec4 res, vec4 a, vec4 b) {
+    vec_iteration(res, a, b, 4, &op_add);
+}
+
+void vec3_add(vec3 res, vec3 a, vec3 b) {
+    vec_iteration(res, a, b, 3, &op_add);
+}
+
+void vec2_add(vec2 res, vec2 a, vec2 b) {
+    vec_iteration(res, a, b, 2, &op_add);
+}
+
+void vec4_sub(vec4 res, vec4 a, vec4 b) {
+    vec_iteration(res, a, b, 4, &op_sub);
+}
+
+void vec3_sub(vec3 res, vec3 a, vec3 b) {
+    vec_iteration(res, a, b, 3, &op_sub);
+}
+
+void vec2_sub(vec2 res, vec2 a, vec2 b) {
+    vec_iteration(res, a, b, 2, &op_sub);
+}
+
+void vec4_mul(vec4 res, vec4 a, vec4 b) {
+    vec_iteration(res, a, b, 4, &op_mul);
+}
+
+void vec3_mul(vec3 res, vec3 a, vec3 b) {
+    vec_iteration(res, a, b, 3, &op_mul);
+}
+
+void vec2_mul(vec2 res, vec2 a, vec2 b) {
+    vec_iteration(res, a, b, 2, &op_mul);
+}
+
+void vec4_div(vec4 res, vec4 a, vec4 b) {
+    vec_iteration(res, a, b, 4, &op_div);
+}
+
+void vec3_div(vec3 res, vec3 a, vec3 b) {
+    vec_iteration(res, a, b, 3, &op_div);
+}
+
+void vec2_div(vec2 res, vec2 a, vec2 b) {
+    vec_iteration(res, a, b, 2, &op_div);
+}
+
+bool vec_cmp(float * a, float * b, size_t size) {
+    for(size_t i = 0; i<size; i++) {
+        if (a[i] != b[i]) {
+            return false;
+        }
+    }
+    return true;
+}
+
+bool vec4_cmp(vec4 a, vec4 b) {
+    return vec_cmp(a, b, 4);
+}
+
+bool vec3_cmp(vec3 a, vec3 b) {
+    return vec_cmp(a, b, 3);
+}
+
+bool vec2_cmp(vec2 a, vec2 b) {
+    return vec_cmp(a, b, 2);
+}
+
 /* Mixed functions. */
+
+/* Matrix and float functions. */
 
 void mfl_iterate(float * dest, float * source, float scalar, size_t mat_size, float (*op)(float a, float b)) {
     size_t index;
@@ -186,3 +263,29 @@ void mfl3_sub(mat3 res, mat3 A, float f) {
 void mfl2_sub(mat2 res, mat2 A, float f) {
     mfl_iterate(&res[0][0], &A[0][0], f, 2, &op_sub);
 }
+
+/* Matrix and vector functions */
+
+void mve_iterate(float * dest, float * M, float * v, size_t size, float (*op)(float a, float b)) {
+    size_t index;
+    for(size_t i = 0; i<size; i++) {
+        dest[i] = 0;
+        for(size_t j = 0; j<size; j++) {
+            index = mat_index(i, j, size);
+            dest[i] += op(M[index], v[j]);
+        }
+    }
+}
+
+void mve4_mul(vec4 res, mat4 A, vec4 v) {
+    mve_iterate(res, &A[0][0], v, 4, &op_mul);
+}
+
+void mve3_mul(vec3 res, mat3 A, vec3 v) {
+    mve_iterate(res, &A[0][0], v, 3, &op_mul);
+}
+
+void mve2_mul(vec2 res, mat2 A, vec2 v) {
+    mve_iterate(res, &A[0][0], v, 2, &op_mul);
+}
+

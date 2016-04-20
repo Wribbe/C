@@ -451,6 +451,14 @@ char * test_maths(void) {
 
     /* Test multiplying a matrix with a vector. */
 
+    vec3 v3 = {1.0f, 2.0f, 3.0f};
+    vec3 vcor3 = {14.0f, 14.0f, 14.0f};
+
+    vec3 v3res = {0};
+
+    mve3_mul(v3res, A3, v3);
+    mu_assert("v3 not equal to vcor3 after matrix vector multiplication.", vec3_cmp(vcor3, v3res));
+
     return 0;
 }
 
