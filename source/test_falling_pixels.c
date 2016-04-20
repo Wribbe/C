@@ -400,6 +400,18 @@ char * test_maths(void) {
     mat2_add(res2, A2, B2);
     mu_assert("Addition of A2 + B2 not same as cor2", mat2_cmp(res2, cor2));
 
+    /* Test multiplication. */
+
+    mat4_set(cor4, (mat4){ /* A4 * 2 */
+        {8.0f, 10.0f, 12.0f, 2.0f},
+        {12.0f, 10.0f, 8.0f, 8.0f},
+        {8.0f, 12.0f, 10.0f, 18.0f},
+        {12.0f, 10.0f, 8.0f, 8.0f},
+    });
+
+    mfl4_mul(res4, A4, 2.0f);
+    mu_assert("A4 * 2 does not equal cor4.", mat4_cmp(res4, cor4));
+
     return 0;
 }
 

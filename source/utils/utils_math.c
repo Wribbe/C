@@ -126,3 +126,28 @@ void mat2_set(mat2 dest, mat2 source) {
 }
 
 /* Vectors. */
+
+/* Mixed functions. */
+
+void mfl_iterate(float * dest, float * source, float scalar, size_t mat_size, float (*op)(float a, float b)) {
+    size_t index;
+    for(size_t i = 0; i<mat_size; i++) {
+        for(size_t j = 0; j<mat_size; j++) {
+            index = mat_index(i, j, mat_size);
+            dest[index] = op(source[index], scalar);
+        }
+    }
+}
+
+void mfl4_mul(mat4 res, mat4 A, float f) {
+    mfl_iterate(&res[0][0], &A[0][0], f, 4, &op_mul);
+}
+
+void mfl3_mul(mat3 res, mat3 A, float f) {
+    mfl_iterate(&res[0][0], &A[0][0], f, 3, &op_mul);
+}
+
+void mfl2_mul(mat2 res, mat2 A, float f) {
+    mfl_iterate(&res[0][0], &A[0][0], f, 2, &op_mul);
+}
+
