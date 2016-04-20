@@ -84,16 +84,28 @@ void vec2_div(vec2 res, vec2 a, vec2 b);
 
 /* Mixed functions. */
 
-void mec4_mul(vec4 res, mat4 A, vec4 v);
-void mec3_mul(vec3 res, mat3 A, vec3 v);
-void mec2_mul(vec2 res, mat2 A, vec2 v);
+void mve4_mul(vec4 res, mat4 A, vec4 v);
+void mve3_mul(vec3 res, mat3 A, vec3 v);
+void mve2_mul(vec2 res, mat2 A, vec2 v);
 
-void mec4_add(mat4 res, mat4 A, vec4 v);
-void mec3_add(mat3 res, mat3 A, vec3 v);
-void mec2_add(mat2 res, mat2 A, vec2 v);
+void mve4_add(mat4 res, mat4 A, vec4 v);
+void mve3_add(mat3 res, mat3 A, vec3 v);
+void mve2_add(mat2 res, mat2 A, vec2 v);
 
-void mnt4_mul(vec4 res, mat4 A, float f);
-void mnt3_mul(vec3 res, mat3 A, float f);
-void mnt2_mul(vec2 res, mat2 A, float f);
+void mfl4_mul(mat4 res, mat4 A, float f);
+void mfl3_mul(mat3 res, mat3 A, float f);
+void mfl2_mul(mat2 res, mat2 A, float f);
+
+void mfl4_div(mat4 res, mat4 A, float f);
+void mfl3_div(mat3 res, mat3 A, float f);
+void mfl2_div(mat2 res, mat2 A, float f);
+
+void mfl4_add(mat4 res, mat4 A, float f);
+void mfl3_add(mat3 res, mat3 A, float f);
+void mfl2_add(mat2 res, mat2 A, float f);
+
+void mfl4_sub(mat4 res, mat4 A, float f);
+void mfl3_sub(mat3 res, mat3 A, float f);
+void mfl2_sub(mat2 res, mat2 A, float f);
 
 #endif
