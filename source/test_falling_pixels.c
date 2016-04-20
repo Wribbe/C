@@ -327,25 +327,25 @@ char * test_config_parser(void) {
 
 char * test_maths(void) {
 
-    mat4 A = {
+    mat4 A4 = {
         {1.0f, 0.0f, 0.0f, 0.0f},
         {0.0f, 1.0f, 0.0f, 0.0f},
         {0.0f, 0.0f, 1.0f, 0.0f},
         {0.0f, 0.0f, 0.0f, 1.0f},
     };
 
-    mat4 B = {
+    mat4 B4 = {
         {1.0f, 0.0f, 0.0f, 0.0f},
         {0.0f, 1.0f, 0.0f, 0.0f},
         {0.0f, 0.0f, 1.0f, 0.0f},
         {0.0f, 0.0f, 0.0f, 1.0f},
     };
 
-    mat4 res = {0};
+    mat4 res4 = {0};
 
-    mat4_mul(res, A, B);
+    mat4_mul(res4, A4, B4);
 
-    mu_assert("res != A", mat4_cmp(res, A));
+    mu_assert("res4 != A", mat4_cmp(res4, A4));
 
     mat2 A2 = {
         { 2.0f,  3.0f},
@@ -357,7 +357,7 @@ char * test_maths(void) {
         { 1.0f, -1.0f},
     };
 
-    mat2 A2mulB2 = {
+    mat2 cor2 = {
         { 7.0f,  3.0f},
         { 1.0f,  4.0f},
     };
@@ -365,31 +365,40 @@ char * test_maths(void) {
     mat2 res2 = {0};
 
     mat2_mul(res2, A2, B2);
-    mu_assert("res2 != A2mulB2", mat2_cmp(res2, A2mulB2));
+    mu_assert("res2 != cor2", mat2_cmp(res2, cor2));
 
-    mat4 A3 = {
+    mat4_set(A4, (mat4){
         {4.0f, 5.0f, 6.0f, 1.0f},
         {6.0f, 5.0f, 4.0f, 4.0f},
         {4.0f, 6.0f, 5.0f, 9.0f},
         {6.0f, 5.0f, 4.0f, 4.0f},
-    };
+    });
 
-    mat4 B3 = {
+    mat4_set(B4, (mat4){
         {1.0f, 2.0f, 3.0f, 4.0f},
         {3.0f, 2.0f, 1.0f, 2.0f},
         {2.0f, 1.0f, 3.0f, 6.0f},
         {2.0f, 1.0f, 3.0f, 6.0f},
-    };
+    });
 
-    mat4 res3 = {
+    mat4 cor4 = {
         {33.0f, 25.0f, 38.0f, 68.0f},
         {37.0f, 30.0f, 47.0f, 82.0f},
         {50.0f, 34.0f, 60.0f, 112.0f},
         {37.0f, 30.0f, 47.0f, 82.0f},
     };
 
-    mat4_mul(res, A3, B3);
-    mu_assert("res != res3", mat4_cmp(res, res3));
+    mat4_mul(res4, A4, B4);
+    mu_assert("res4 != cor4", mat4_cmp(res4, cor4));
+
+    /* Test addition of A2 and B2. */
+    mat2_set(cor2 ,(mat2){
+        { 4.0f,  6.0f},
+        { 2.0f, -2.0f},
+    });
+
+    mat2_add(res2, A2, B2);
+    mu_assert("Addition of A2 + B2 not same as cor2", mat2_cmp(res2, cor2));
 
     return 0;
 }

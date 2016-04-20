@@ -81,4 +81,26 @@ bool mat2_cmp(mat2 A, mat2 B) {
     return mat_cmp(&A[0][0], &B[0][0], 2);
 }
 
+void mat_set(float * dest, float * source, size_t mat_size) {
+    size_t index;
+    for(size_t i = 0; i<mat_size; i++) {
+        for(size_t j = 0; j<mat_size; j++) {
+            index = mat_index(i, j, mat_size);
+            dest[index] = source[index];
+        }
+    }
+}
+
+void mat4_set(mat4 dest, mat4 source) {
+    mat_set(&dest[0][0], &source[0][0], 4);
+}
+
+void mat3_set(mat3 dest, mat3 source) {
+    mat_set(&dest[0][0], &source[0][0], 3);
+}
+
+void mat2_set(mat2 dest, mat2 source) {
+    mat_set(&dest[0][0], &source[0][0], 2);
+}
+
 /* Vectors. */

@@ -60,6 +60,10 @@ bool mat4_cmp(mat4 A, mat4 B);
 bool mat3_cmp(mat3 A, mat3 B);
 bool mat2_cmp(mat2 A, mat2 B);
 
+void mat4_set(mat4 dest, mat4 src);
+void mat3_set(mat3 dest, mat3 src);
+void mat2_set(mat2 dest, mat2 src);
+
 /* Vector functions. */
 
 void vec4_add(vec4 res, vec4 a, vec4 b);
