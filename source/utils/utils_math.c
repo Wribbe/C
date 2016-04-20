@@ -163,4 +163,26 @@ void mfl2_div(mat2 res, mat2 A, float f) {
     mfl_iterate(&res[0][0], &A[0][0], f, 2, &op_div);
 }
 
+void mfl4_add(mat4 res, mat4 A, float f) {
+    mfl_iterate(&res[0][0], &A[0][0], f, 4, &op_add);
+}
 
+void mfl3_add(mat3 res, mat3 A, float f) {
+    mfl_iterate(&res[0][0], &A[0][0], f, 3, &op_add);
+}
+
+void mfl2_add(mat2 res, mat2 A, float f) {
+    mfl_iterate(&res[0][0], &A[0][0], f, 2, &op_add);
+}
+
+void mfl4_sub(mat4 res, mat4 A, float f) {
+    mfl_iterate(&res[0][0], &A[0][0], f, 4, &op_sub);
+}
+
+void mfl3_sub(mat3 res, mat3 A, float f) {
+    mfl_iterate(&res[0][0], &A[0][0], f, 3, &op_sub);
+}
+
+void mfl2_sub(mat2 res, mat2 A, float f) {
+    mfl_iterate(&res[0][0], &A[0][0], f, 2, &op_sub);
+}

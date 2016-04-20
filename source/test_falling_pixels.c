@@ -400,7 +400,7 @@ char * test_maths(void) {
     mat2_add(res2, A2, B2);
     mu_assert("Addition of A2 + B2 not same as cor2", mat2_cmp(res2, cor2));
 
-    /* Test multiplication. */
+    /* Test float multiplication. */
 
     mat4_set(cor4, (mat4){ /* A4 * 2 */
         {8.0f, 10.0f, 12.0f, 2.0f},
@@ -412,10 +412,42 @@ char * test_maths(void) {
     mfl4_mul(res4, A4, 2.0f);
     mu_assert("A4 * 2 does not equal cor4.", mat4_cmp(res4, cor4));
 
-    /* Test division. */
+    /* Test float division. */
 
     mfl4_div(res4, cor4, 2.0f);
     mu_assert("rel4 not equal A4 when dividing by 2.0f", mat4_cmp(res4, A4));
+
+    /* Test float addition. */
+
+    mat3 A3 = {
+        {1.0f, 2.0f, 3.0f},
+        {1.0f, 2.0f, 3.0f},
+        {1.0f, 2.0f, 3.0f},
+    };
+
+    mat3 cor3 = {
+        {3.0f, 4.0f, 5.0f},
+        {3.0f, 4.0f, 5.0f},
+        {3.0f, 4.0f, 5.0f},
+    };
+
+    mat3 res3 = {0};
+
+    mfl3_add(res3, A3, 2.0f);
+    mu_assert("res3 does not equal cor3 after addition.", mat3_cmp(cor3, res3));
+
+    /* Test float subtraction. */
+
+    mat3_set(cor3, (mat3){
+        {-2.0f, -1.0f, 0.0f},
+        {-2.0f, -1.0f, 0.0f},
+        {-2.0f, -1.0f, 0.0f},
+    });
+
+    mfl3_sub(res3, A3, 3.0f);
+    mu_assert("res3 dose not equal cor3 after subtraction.", mat3_cmp(cor3, res3));
+    mfl3_add(res3, A3, -3.0f);
+    mu_assert("res3 dose not equal cor3 after negative addition.", mat3_cmp(cor3, res3));
 
     return 0;
 }
