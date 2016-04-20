@@ -412,12 +412,12 @@ char * test_maths(void) {
     mfl4_mul(res4, A4, 2.0f);
     mu_assert("A4 * 2 does not equal cor4.", mat4_cmp(res4, cor4));
 
-    /* Test float division. */
+    /* Test dividing matrix with float. */
 
     mfl4_div(res4, cor4, 2.0f);
     mu_assert("rel4 not equal A4 when dividing by 2.0f", mat4_cmp(res4, A4));
 
-    /* Test float addition. */
+    /* Test addition of float to matrix. */
 
     mat3 A3 = {
         {1.0f, 2.0f, 3.0f},
@@ -436,7 +436,7 @@ char * test_maths(void) {
     mfl3_add(res3, A3, 2.0f);
     mu_assert("res3 does not equal cor3 after addition.", mat3_cmp(cor3, res3));
 
-    /* Test float subtraction. */
+    /* Test subtraction of float to matrix. */
 
     mat3_set(cor3, (mat3){
         {-2.0f, -1.0f, 0.0f},
@@ -448,6 +448,8 @@ char * test_maths(void) {
     mu_assert("res3 dose not equal cor3 after subtraction.", mat3_cmp(cor3, res3));
     mfl3_add(res3, A3, -3.0f);
     mu_assert("res3 dose not equal cor3 after negative addition.", mat3_cmp(cor3, res3));
+
+    /* Test multiplying a matrix with a vector. */
 
     return 0;
 }
