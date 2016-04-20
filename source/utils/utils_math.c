@@ -24,7 +24,6 @@ void mat_mul(float * res, float * A, float * B, size_t mat_size) {
 
                 res[res_index] += A[A_index] * B[B_index];
             }
-
         }
     }
 }

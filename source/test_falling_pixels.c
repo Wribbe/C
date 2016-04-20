@@ -367,6 +367,30 @@ char * test_maths(void) {
     mat2_mul(res2, A2, B2);
     mu_assert("res2 != A2mulB2", mat2_cmp(res2, A2mulB2));
 
+    mat4 A3 = {
+        {4.0f, 5.0f, 6.0f, 1.0f},
+        {6.0f, 5.0f, 4.0f, 4.0f},
+        {4.0f, 6.0f, 5.0f, 9.0f},
+        {6.0f, 5.0f, 4.0f, 4.0f},
+    };
+
+    mat4 B3 = {
+        {1.0f, 2.0f, 3.0f, 4.0f},
+        {3.0f, 2.0f, 1.0f, 2.0f},
+        {2.0f, 1.0f, 3.0f, 6.0f},
+        {2.0f, 1.0f, 3.0f, 6.0f},
+    };
+
+    mat4 res3 = {
+        {33.0f, 25.0f, 38.0f, 68.0f},
+        {37.0f, 30.0f, 47.0f, 82.0f},
+        {50.0f, 34.0f, 60.0f, 112.0f},
+        {37.0f, 30.0f, 47.0f, 82.0f},
+    };
+
+    mat4_mul(res, A3, B3);
+    mu_assert("res != res3", mat4_cmp(res, res3));
+
     return 0;
 }
 
