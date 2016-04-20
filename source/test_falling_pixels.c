@@ -326,7 +326,47 @@ char * test_config_parser(void) {
 }
 
 char * test_maths(void) {
-    mu_assert("ERROR", 1==2);
+
+    mat4 A = {
+        {1.0f, 0.0f, 0.0f, 0.0f},
+        {0.0f, 1.0f, 0.0f, 0.0f},
+        {0.0f, 0.0f, 1.0f, 0.0f},
+        {0.0f, 0.0f, 0.0f, 1.0f},
+    };
+
+    mat4 B = {
+        {1.0f, 0.0f, 0.0f, 0.0f},
+        {0.0f, 1.0f, 0.0f, 0.0f},
+        {0.0f, 0.0f, 1.0f, 0.0f},
+        {0.0f, 0.0f, 0.0f, 1.0f},
+    };
+
+    mat4 res = {0};
+
+    mat4_mul(res, A, B);
+
+    mu_assert("res != A", mat4_cmp(res, A));
+
+    mat2 A2 = {
+        { 2.0f,  3.0f},
+        { 1.0f, -1.0f},
+    };
+
+    mat2 B2 = {
+        { 2.0f,  3.0f},
+        { 1.0f, -1.0f},
+    };
+
+    mat2 A2mulB2 = {
+        { 5.0f,  3.0f},
+        { 1.0f,  4.0f},
+    };
+
+    mat2 res2 = {0};
+
+    mat2_mul(res2, A2, B2);
+
+    return 0;
 }
 
 char * all_tests(void) {
