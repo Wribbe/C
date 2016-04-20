@@ -2,13 +2,29 @@
 
 /* Matrices. */
 
+size_t mat_index(size_t col, size_t row, size_t size) {
+    return col * size + row;
+}
+
 void mat_mul(float * res, float * A, float * B, size_t mat_size) {
+
+    size_t res_index, A_index, B_index;
+
     for(size_t i = 0; i<mat_size; i++) {
+
         for(size_t j = 0; j<mat_size; j++) {
-            res[i * mat_size + j] = 0;
+
+            res_index = mat_index(i, j, mat_size);
+            res[res_index] = 0;
+
             for(size_t k = 0; k<mat_size; k++) {
-                res[i * mat_size + j] += A[i * mat_size + k] * B[k * mat_size + j];
+
+                A_index = mat_index(i, k, mat_size);
+                B_index = mat_index(k, j, mat_size);
+
+                res[res_index] += A[A_index] * B[B_index];
             }
+
         }
     }
 }
@@ -26,11 +42,11 @@ void mat2_mul(mat2 res, mat2 A, mat2 B) {
 }
 
 bool mat_cmp(float * A, float * B, size_t mat_size) {
-    size_t index;
+    size_t cmp_index;
     for(size_t i = 0; i<mat_size; i++) {
         for(size_t j = 0; j<mat_size; j++) {
-            index = i * mat_size + j;
-            if (A[index] != B[index]) {
+            cmp_index = mat_index(i, j, mat_size);
+            if (A[cmp_index] != B[cmp_index]) {
                 return false;
             }
         }
