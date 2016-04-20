@@ -28,21 +28,68 @@ Dictionary * parse_config(const char * config_filename);
 
 /* Math related functions */
 
+/* Type definitions. */
+
 typedef float mat2[2][2];
 typedef float mat3[3][3];
 typedef float mat4[4][4];
-
-void mat4_mul(mat4 res, mat4 A, mat4 B);
-void mat3_mul(mat3 res, mat3 A, mat3 B);
-void mat2_mul(mat2 res, mat2 A, mat2 B);
-
-bool mat4_cmp(mat4 A, mat4 B);
-bool mat3_cmp(mat3 A, mat3 B);
-bool mat2_cmp(mat2 A, mat2 B);
 
 typedef float vec2[2];
 typedef float vec3[3];
 typedef float vec4[4];
 
+/* Matrix functions. */
+
+void mat4_mul(mat4 res, mat4 A, mat4 B);
+void mat3_mul(mat3 res, mat3 A, mat3 B);
+void mat2_mul(mat2 res, mat2 A, mat2 B);
+
+void mat4_div(mat4 res, mat4 A, mat4 B);
+void mat3_div(mat3 res, mat3 A, mat3 B);
+void mat2_div(mat2 res, mat2 A, mat2 B);
+
+void mat4_add(mat4 res, mat4 A, mat4 B);
+void mat3_add(mat3 res, mat3 A, mat3 B);
+void mat2_add(mat2 res, mat2 A, mat2 B);
+
+void mat4_sub(mat4 res, mat4 A, mat4 B);
+void mat3_sub(mat3 res, mat3 A, mat3 B);
+void mat2_sub(mat2 res, mat2 A, mat2 B);
+
+bool mat4_cmp(mat4 A, mat4 B);
+bool mat3_cmp(mat3 A, mat3 B);
+bool mat2_cmp(mat2 A, mat2 B);
+
+/* Vector functions. */
+
+void vec4_add(vec4 res, vec4 a, vec4 b);
+void vec3_add(vec3 res, vec3 a, vec3 b);
+void vec2_add(vec2 res, vec2 a, vec2 b);
+
+void vec4_sub(vec4 res, vec4 a, vec4 b);
+void vec3_sub(vec3 res, vec3 a, vec3 b);
+void vec2_sub(vec2 res, vec2 a, vec2 b);
+
+void vec4_mul(vec4 res, vec4 a, vec4 b);
+void vec3_mul(vec3 res, vec3 a, vec3 b);
+void vec2_mul(vec2 res, vec2 a, vec2 b);
+
+void vec4_div(vec4 res, vec4 a, vec4 b);
+void vec3_div(vec3 res, vec3 a, vec3 b);
+void vec2_div(vec2 res, vec2 a, vec2 b);
+
+/* Mixed functions. */
+
+void mec4_mul(vec4 res, mat4 A, vec4 v);
+void mec3_mul(vec3 res, mat3 A, vec3 v);
+void mec2_mul(vec2 res, mat2 A, vec2 v);
+
+void mec4_add(mat4 res, mat4 A, vec4 v);
+void mec3_add(mat3 res, mat3 A, vec3 v);
+void mec2_add(mat2 res, mat2 A, vec2 v);
+
+void mnt4_mul(vec4 res, mat4 A, float f);
+void mnt3_mul(vec3 res, mat3 A, float f);
+void mnt2_mul(vec2 res, mat2 A, float f);
 
 #endif
