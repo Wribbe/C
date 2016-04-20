@@ -358,13 +358,14 @@ char * test_maths(void) {
     };
 
     mat2 A2mulB2 = {
-        { 5.0f,  3.0f},
+        { 7.0f,  3.0f},
         { 1.0f,  4.0f},
     };
 
     mat2 res2 = {0};
 
     mat2_mul(res2, A2, B2);
+    mu_assert("res2 != A2mulB2", mat2_cmp(res2, A2mulB2));
 
     return 0;
 }
