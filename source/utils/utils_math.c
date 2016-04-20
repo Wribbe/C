@@ -6,7 +6,23 @@ size_t mat_index(size_t col, size_t row, size_t size) {
     return col * size + row;
 }
 
-void mat_mul(float * res, float * A, float * B, size_t mat_size) {
+float op_add(float a, float b) {
+    return a + b;
+}
+
+float op_sub(float a, float b) {
+    return a - b;
+}
+
+float op_div(float a, float b) {
+    return a / b;
+}
+
+float op_mul(float a, float b) {
+    return a * b;
+}
+
+void mat_mul(float * res, float * A, float * B, size_t mat_size, float (*op)(float a, float b)) {
 
     size_t res_index, A_index, B_index;
 
@@ -22,22 +38,22 @@ void mat_mul(float * res, float * A, float * B, size_t mat_size) {
                 A_index = mat_index(i, k, mat_size);
                 B_index = mat_index(k, j, mat_size);
 
-                res[res_index] += A[A_index] * B[B_index];
+                res[res_index] += op(A[A_index], B[B_index]);
             }
         }
     }
 }
 
 void mat4_mul(mat4 res, mat4 A, mat4 B) {
-    mat_mul(&res[0][0], &A[0][0], &B[0][0], 4);
+    mat_mul(&res[0][0], &A[0][0], &B[0][0], 4, &op_mul);
 }
 
 void mat3_mul(mat3 res, mat3 A, mat3 B) {
-    mat_mul(&res[0][0], &A[0][0], &B[0][0], 3);
+    mat_mul(&res[0][0], &A[0][0], &B[0][0], 3, &op_mul);
 }
 
 void mat2_mul(mat2 res, mat2 A, mat2 B) {
-    mat_mul(&res[0][0], &A[0][0], &B[0][0], 2);
+    mat_mul(&res[0][0], &A[0][0], &B[0][0], 2, &op_mul);
 }
 
 bool mat_cmp(float * A, float * B, size_t mat_size) {
