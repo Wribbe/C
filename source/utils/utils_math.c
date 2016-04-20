@@ -151,3 +151,16 @@ void mfl2_mul(mat2 res, mat2 A, float f) {
     mfl_iterate(&res[0][0], &A[0][0], f, 2, &op_mul);
 }
 
+void mfl4_div(mat4 res, mat4 A, float f) {
+    mfl_iterate(&res[0][0], &A[0][0], f, 4, &op_div);
+}
+
+void mfl3_div(mat3 res, mat3 A, float f) {
+    mfl_iterate(&res[0][0], &A[0][0], f, 3, &op_div);
+}
+
+void mfl2_div(mat2 res, mat2 A, float f) {
+    mfl_iterate(&res[0][0], &A[0][0], f, 2, &op_div);
+}
+
+

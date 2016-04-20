@@ -412,6 +412,11 @@ char * test_maths(void) {
     mfl4_mul(res4, A4, 2.0f);
     mu_assert("A4 * 2 does not equal cor4.", mat4_cmp(res4, cor4));
 
+    /* Test division. */
+
+    mfl4_div(res4, cor4, 2.0f);
+    mu_assert("rel4 not equal A4 when dividing by 2.0f", mat4_cmp(res4, A4));
+
     return 0;
 }
 
