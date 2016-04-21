@@ -79,6 +79,18 @@ void mat2_mul(mat2 res, mat2 A, mat2 B) {
     mat_iter_3(&res[0][0], &A[0][0], &B[0][0], 2, &op_mul);
 }
 
+void mat4_div(mat4 res, mat4 A, mat4 B) {
+    mat_iter_3(&res[0][0], &A[0][0], &B[0][0], 4, &op_div);
+}
+
+void mat3_div(mat3 res, mat3 A, mat3 B) {
+    mat_iter_3(&res[0][0], &A[0][0], &B[0][0], 3, &op_div);
+}
+
+void mat2_div(mat2 res, mat2 A, mat2 B) {
+    mat_iter_3(&res[0][0], &A[0][0], &B[0][0], 2, &op_div);
+}
+
 void mat_iter_2(float * ret, float * A, float * B, size_t mat_size, float (*op)(float a, float b)) {
     size_t index;
     for(size_t i = 0; i<mat_size; i++) {
@@ -99,6 +111,18 @@ void mat3_add(mat3 res, mat3 A, mat3 B) {
 
 void mat2_add(mat2 res, mat2 A, mat2 B) {
     mat_iter_2(&res[0][0], &A[0][0], &B[0][0], 2, &op_add);
+}
+
+void mat4_sub(mat4 res, mat4 A, mat4 B) {
+    mat_iter_2(&res[0][0], &A[0][0], &B[0][0], 4, &op_sub);
+}
+
+void mat3_sub(mat3 res, mat3 A, mat3 B) {
+    mat_iter_2(&res[0][0], &A[0][0], &B[0][0], 3, &op_sub);
+}
+
+void mat2_sub(mat2 res, mat2 A, mat2 B) {
+    mat_iter_2(&res[0][0], &A[0][0], &B[0][0], 2, &op_sub);
 }
 
 bool mat_cmp(float * A, float * B, size_t mat_size) {
