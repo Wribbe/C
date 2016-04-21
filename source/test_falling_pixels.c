@@ -327,137 +327,139 @@ char * test_config_parser(void) {
 
 char * test_maths(void) {
 
-    mat4 A4 = {
+    mat4 m4a = {
         {1.0f, 0.0f, 0.0f, 0.0f},
         {0.0f, 1.0f, 0.0f, 0.0f},
         {0.0f, 0.0f, 1.0f, 0.0f},
         {0.0f, 0.0f, 0.0f, 1.0f},
     };
 
-    mat4 B4 = {
+    mat4 m4b = {
         {1.0f, 0.0f, 0.0f, 0.0f},
         {0.0f, 1.0f, 0.0f, 0.0f},
         {0.0f, 0.0f, 1.0f, 0.0f},
         {0.0f, 0.0f, 0.0f, 1.0f},
     };
 
-    mat4 res4 = {0};
+    mat4 v4res = {0};
 
-    mat4_mul(res4, A4, B4);
+    mat4_mul(v4res, m4a, m4b);
 
-    mu_assert("res4 != A", mat4_cmp(res4, A4));
+    mu_assert("v4res != A", mat4_cmp(v4res, m4a));
 
-    mat2 A2 = {
+    mat2 m2a = {
         { 2.0f,  3.0f},
         { 1.0f, -1.0f},
     };
 
-    mat2 B2 = {
+    mat2 m2b = {
         { 2.0f,  3.0f},
         { 1.0f, -1.0f},
     };
 
-    mat2 cor2 = {
+    mat2 m2corr = {
         { 7.0f,  3.0f},
         { 1.0f,  4.0f},
     };
 
-    mat2 res2 = {0};
+    mat2 m2res = {0};
 
-    mat2_mul(res2, A2, B2);
-    mu_assert("res2 != cor2", mat2_cmp(res2, cor2));
+    mat2_mul(m2res, m2a, m2b);
+    mu_assert("m2res != m2corr", mat2_cmp(m2res, m2corr));
 
-    mat4_set(A4, (mat4){
+    mat4_set(m4a, (mat4){
         {4.0f, 5.0f, 6.0f, 1.0f},
         {6.0f, 5.0f, 4.0f, 4.0f},
         {4.0f, 6.0f, 5.0f, 9.0f},
         {6.0f, 5.0f, 4.0f, 4.0f},
     });
 
-    mat4_set(B4, (mat4){
+    mat4_set(m4b, (mat4){
         {1.0f, 2.0f, 3.0f, 4.0f},
         {3.0f, 2.0f, 1.0f, 2.0f},
         {2.0f, 1.0f, 3.0f, 6.0f},
         {2.0f, 1.0f, 3.0f, 6.0f},
     });
 
-    mat4 cor4 = {
+    mat4 m4corr = {
         {33.0f, 25.0f, 38.0f, 68.0f},
         {37.0f, 30.0f, 47.0f, 82.0f},
         {50.0f, 34.0f, 60.0f, 112.0f},
         {37.0f, 30.0f, 47.0f, 82.0f},
     };
 
-    mat4_mul(res4, A4, B4);
-    mu_assert("res4 != cor4", mat4_cmp(res4, cor4));
+    mat4_mul(v4res, m4a, m4b);
+    mu_assert("v4res != m4corr", mat4_cmp(v4res, m4corr));
 
-    /* Test addition of A2 and B2. */
-    mat2_set(cor2 ,(mat2){
+    /* Test addition of m2a and m2b. */
+    mat2_set(m2corr ,(mat2){
         { 4.0f,  6.0f},
         { 2.0f, -2.0f},
     });
 
-    mat2_add(res2, A2, B2);
-    mu_assert("Addition of A2 + B2 not same as cor2", mat2_cmp(res2, cor2));
+    mat2_add(m2res, m2a, m2b);
+    mu_assert("Addition of m2a + m2b not same as m2corr", mat2_cmp(m2res, m2corr));
 
     /* Test float multiplication. */
 
-    mat4_set(cor4, (mat4){ /* A4 * 2 */
+    mat4_set(m4corr, (mat4){ /* m4a * 2 */
         {8.0f, 10.0f, 12.0f, 2.0f},
         {12.0f, 10.0f, 8.0f, 8.0f},
         {8.0f, 12.0f, 10.0f, 18.0f},
         {12.0f, 10.0f, 8.0f, 8.0f},
     });
 
-    mfl4_mul(res4, A4, 2.0f);
-    mu_assert("A4 * 2 does not equal cor4.", mat4_cmp(res4, cor4));
+    mfl4_mul(v4res, m4a, 2.0f);
+    mu_assert("m4a * 2 does not equal m4corr.", mat4_cmp(v4res, m4corr));
 
     /* Test dividing matrix with float. */
 
-    mfl4_div(res4, cor4, 2.0f);
-    mu_assert("rel4 not equal A4 when dividing by 2.0f", mat4_cmp(res4, A4));
+    mfl4_div(v4res, m4corr, 2.0f);
+    mu_assert("rel4 not equal m4a when dividing by 2.0f", mat4_cmp(v4res, m4a));
 
     /* Test addition of float to matrix. */
 
-    mat3 A3 = {
+    mat3 m3a = {
         {1.0f, 2.0f, 3.0f},
         {1.0f, 2.0f, 3.0f},
         {1.0f, 2.0f, 3.0f},
     };
 
-    mat3 cor3 = {
+    mat3 m3corr = {
         {3.0f, 4.0f, 5.0f},
         {3.0f, 4.0f, 5.0f},
         {3.0f, 4.0f, 5.0f},
     };
 
-    mat3 res3 = {0};
+    mat3 m3res = {0};
 
-    mfl3_add(res3, A3, 2.0f);
-    mu_assert("res3 does not equal cor3 after addition.", mat3_cmp(cor3, res3));
+    mfl3_add(m3res, m3a, 2.0f);
+    mu_assert("m3res does not equal m3corr after addition.", mat3_cmp(m3corr, m3res));
 
     /* Test subtraction of float to matrix. */
 
-    mat3_set(cor3, (mat3){
+    mat3_set(m3corr, (mat3){
         {-2.0f, -1.0f, 0.0f},
         {-2.0f, -1.0f, 0.0f},
         {-2.0f, -1.0f, 0.0f},
     });
 
-    mfl3_sub(res3, A3, 3.0f);
-    mu_assert("res3 dose not equal cor3 after subtraction.", mat3_cmp(cor3, res3));
-    mfl3_add(res3, A3, -3.0f);
-    mu_assert("res3 dose not equal cor3 after negative addition.", mat3_cmp(cor3, res3));
+    mfl3_sub(m3res, m3a, 3.0f);
+    mu_assert("m3res dose not equal m3corr after subtraction.", mat3_cmp(m3corr, m3res));
+    mfl3_add(m3res, m3a, -3.0f);
+    mu_assert("m3res dose not equal m3corr after negative addition.", mat3_cmp(m3corr, m3res));
 
     /* Test multiplying a matrix with a vector. */
 
-    vec3 v3 = {1.0f, 2.0f, 3.0f};
-    vec3 vcor3 = {14.0f, 14.0f, 14.0f};
+    vec3 v3a = {1.0f, 2.0f, 3.0f};
+    vec3 v3corr = {14.0f, 14.0f, 14.0f};
 
     vec3 v3res = {0};
 
-    mve3_mul(v3res, A3, v3);
-    mu_assert("v3 not equal to vcor3 after matrix vector multiplication.", vec3_cmp(vcor3, v3res));
+    mve3_mul(v3res, m3a, v3a);
+    mu_assert("v3a not equal to v3corr after matrix vector multiplication.", vec3_cmp(v3corr, v3res));
+
+    mve3_add(m3res, m3a, v3a)
 
     return 0;
 }
