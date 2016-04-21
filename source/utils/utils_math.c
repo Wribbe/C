@@ -44,6 +44,29 @@ void mat_iter_3(float * res, float * A, float * B, size_t mat_size, float (*op)(
     }
 }
 
+void mat_iter_p(float * A, size_t mat_size) {
+    size_t index;
+    for(size_t i = 0; i < mat_size; i++) {
+        for(size_t j = 0; j < mat_size; j++) {
+            index = mat_index(i, j, mat_size);
+            printf("[%zu][%zu]: %0.2f ", i, j, A[index]);
+        }
+        printf("\n");
+    }
+}
+
+void mat4_print(mat4 A) {
+    mat_iter_p(&A[0][0], 4);
+}
+
+void mat3_print(mat3 A) {
+    mat_iter_p(&A[0][0], 3);
+}
+
+void mat2_print(mat2 A) {
+    mat_iter_p(&A[0][0], 2);
+}
+
 void mat4_mul(mat4 res, mat4 A, mat4 B) {
     mat_iter_3(&res[0][0], &A[0][0], &B[0][0], 4, &op_mul);
 }

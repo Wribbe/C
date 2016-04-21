@@ -64,6 +64,10 @@ void mat4_set(mat4 dest, mat4 src);
 void mat3_set(mat3 dest, mat3 src);
 void mat2_set(mat2 dest, mat2 src);
 
+void mat4_print(mat4 A);
+void mat3_print(mat3 A);
+void mat2_print(mat2 A);
+
 /* Vector functions. */
 
 void vec4_add(vec4 res, vec4 a, vec4 b);
