@@ -289,3 +289,48 @@ void mve2_mul(vec2 res, mat2 A, vec2 v) {
     mve_iterate(res, &A[0][0], v, 2, &op_mul);
 }
 
+void mve4_div(vec4 res, mat4 A, vec4 v) {
+    mve_iterate(res, &A[0][0], v, 4, &op_div);
+}
+
+void mve3_div(vec3 res, mat3 A, vec3 v) {
+    mve_iterate(res, &A[0][0], v, 3, &op_div);
+}
+
+void mve2_div(vec2 res, mat2 A, vec2 v) {
+    mve_iterate(res, &A[0][0], v, 2, &op_div);
+}
+
+void mve_add_iter(float * dest, float * M, float * v, size_t size, float (*op)(float a, float b)) {
+    size_t index;
+    for(size_t i = 0; i<size; i++) {
+        for(size_t j = 0; j<size; j++) {
+            index = mat_index(i, j, size);
+            dest[index] = op(M[index], v[i]);
+        }
+    }
+}
+
+void mve4_add(mat4 res, mat4 A, vec4 v) {
+    mve_add_iter(&res[0][0], &A[0][0], v, 4, &op_add);
+}
+
+void mve3_add(mat3 res, mat3 A, vec3 v) {
+    mve_add_iter(&res[0][0], &A[0][0], v, 3, &op_add);
+}
+
+void mve2_add(mat2 res, mat2 A, vec2 v) {
+    mve_add_iter(&res[0][0], &A[0][0], v, 2, &op_add);
+}
+
+void mve4_sub(mat4 res, mat4 A, vec4 v) {
+    mve_add_iter(&res[0][0], &A[0][0], v, 4, &op_sub);
+}
+
+void mve3_sub(mat3 res, mat3 A, vec3 v) {
+    mve_add_iter(&res[0][0], &A[0][0], v, 3, &op_sub);
+}
+
+void mve2_sub(mat2 res, mat2 A, vec2 v) {
+    mve_add_iter(&res[0][0], &A[0][0], v, 2, &op_sub);
+}

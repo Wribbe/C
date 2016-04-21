@@ -98,13 +98,13 @@ void mve4_div(vec4 res, mat4 A, vec4 v);
 void mve3_div(vec3 res, mat3 A, vec3 v);
 void mve2_div(vec2 res, mat2 A, vec2 v);
 
-void mve4_add(vec4 res, mat4 A, vec4 v);
-void mve3_add(vec3 res, mat3 A, vec3 v);
-void mve2_add(vec2 res, mat2 A, vec2 v);
+void mve4_add(mat4 res, mat4 A, vec4 v);
+void mve3_add(mat3 res, mat3 A, vec3 v);
+void mve2_add(mat2 res, mat2 A, vec2 v);
 
-void mve4_sub(vec4 res, mat4 A, vec4 v);
-void mve3_sub(vec3 res, mat3 A, vec3 v);
-void mve2_sub(vec2 res, mat2 A, vec2 v);
+void mve4_sub(mat4 res, mat4 A, vec4 v);
+void mve3_sub(mat3 res, mat3 A, vec3 v);
+void mve2_sub(mat2 res, mat2 A, vec2 v);
 
 /* Matrix and float functions. */
 

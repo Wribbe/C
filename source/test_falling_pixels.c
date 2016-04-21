@@ -459,7 +459,17 @@ char * test_maths(void) {
     mve3_mul(v3res, m3a, v3a);
     mu_assert("v3a not equal to v3corr after matrix vector multiplication.", vec3_cmp(v3corr, v3res));
 
-    mve3_add(m3res, m3a, v3a)
+    /* Test adding vector to matrix. */
+
+    mve3_add(m3res, m3a, v3a);
+
+    mat3_set(m3corr,(mat3){
+        {2.0f, 3.0f, 4.0f},
+        {3.0f, 4.0f, 5.0f},
+        {4.0f, 5.0f, 6.0f},
+    });
+
+    mu_assert("m3res not equal m3coor after adding v3a to m3a.", mat3_cmp(m3res, m3corr));
 
     return 0;
 }
