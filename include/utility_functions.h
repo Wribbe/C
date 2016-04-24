@@ -4,6 +4,10 @@
 #include <stdbool.h>
 #include <math.h>
 
+/* Global Constants */
+
+#define MATORD GL_TRUE
+
 /* Macro definitions. */
 #define ERROR(message) do { fprintf(stderr, "ERROR: [%s:%s]: %s\n", __FILE__,__func__,message); return -1; } while(0)
 

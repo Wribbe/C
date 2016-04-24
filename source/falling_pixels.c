@@ -152,6 +152,7 @@ int main(void) {
 
     mat4_set(transform, m4id);
     mfl4_scale(transform, transform, 0.5f);
+    mve4_translate(transform, transform, (vec3){0.5f, 0.5f, 0.0f});
 
     mat4_print(transform);
 
@@ -168,7 +169,7 @@ int main(void) {
 
         glUseProgram(shaderProgram);
 
-        glUniformMatrix4fv(transform_location, 1, GL_FALSE, mat_ptr(transform));
+        glUniformMatrix4fv(transform_location, 1, MATORD, mat_ptr(transform));
 
         glBindVertexArray(VAO);
         glDrawArrays(GL_TRIANGLES, 0, 6);
