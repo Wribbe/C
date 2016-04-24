@@ -132,6 +132,10 @@ void mve4_sub(mat4 res, mat4 A, vec4 v);
 void mve3_sub(mat3 res, mat3 A, vec3 v);
 void mve2_sub(mat2 res, mat2 A, vec2 v);
 
+void mve4_translate(mat4 res, mat4 A, vec3 v);
+void mve3_translate(mat3 res, mat3 A, vec2 v);
+void mve2_translate(mat2 res, mat2 A, float v[1]);
+
 /* Matrix and float functions. */
 
 void mfl4_mul(mat4 res, mat4 A, float f);

@@ -407,3 +407,24 @@ void mve3_sub(mat3 res, mat3 A, vec3 v) {
 void mve2_sub(mat2 res, mat2 A, vec2 v) {
     mve_add_iter(&res[0][0], &A[0][0], v, 2, &op_sub);
 }
+
+void mve_translate(float * res, float * A, float * v, size_t dim) {
+    size_t index;
+    size_t i = dim-1; /* Only add to the last column. */
+    for(size_t j=0; j<dim-1; j++) { /* Don't add to the w-component. */
+        index = mat_index(j, i, dim);
+        res[index] = A[index]+v[j];
+    }
+}
+
+void mve4_translate(mat4 res, mat4 A, vec3 v) {
+    mve_translate(&res[0][0], &A[0][0], &v[0], 4);
+}
+
+void mve3_translate(mat3 res, mat3 A, vec2 v) {
+    mve_translate(&res[0][0], &A[0][0], &v[0], 3);
+}
+
+void mve2_translate(mat2 res, mat2 A, float v[1]) {
+    mve_translate(&res[0][0], &A[0][0], &v[0], 2);
+}

@@ -490,6 +490,32 @@ char * test_maths(void) {
 
     mu_assert("m4res not equal m4corr after addition of m4a+m4b.", mat4_cmp(m4res, m4corr));
 
+    /* Test matrix scaling. */
+
+    mat4_set(m4a, m4id);
+    mfl4_scale(m4a, m4a, 2.0f);
+    mat4_set(m4corr, (mat4){
+        {2.0f, 0.0f, 0.0f, 0.0f},
+        {0.0f, 2.0f, 0.0f, 0.0f},
+        {0.0f, 0.0f, 2.0f, 0.0f},
+        {0.0f, 0.0f, 0.0f, 1.0f},
+    });
+
+    mu_assert("m4a != m4coor after scaling id matrix with 2.0f", mat4_cmp(m4a, m4corr));
+
+    /* Test matrix translation. */
+
+    mat4_set(m4a, m4id);
+    mve4_translate(m4a, m4a, (vec3){1.0f, 2.0f, 3.0f});
+    mat4_set(m4corr, (mat4){
+        {1.0f, 0.0f, 0.0f, 1.0f},
+        {0.0f, 1.0f, 0.0f, 2.0f},
+        {0.0f, 0.0f, 1.0f, 3.0f},
+        {0.0f, 0.0f, 0.0f, 1.0f},
+    });
+
+    mu_assert("m4a != m4coor after translating id matrix with {1.0f, 2.0f, 3.0f}", mat4_cmp(m4a, m4corr));
+
     return 0;
 }
 
