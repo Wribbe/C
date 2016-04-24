@@ -336,6 +336,23 @@ void mfl2_scale(mat2 res, mat2 A, float f) {
     mfl_scale(&res[0][0], &A[0][0], f, 2);
 }
 
+void mfl4_rotate(mat4 res, float radians, vec3 rotation) {
+
+    double rx = rotation[0];
+    double ry = rotation[1];
+    double rz = rotation[2];
+
+    double cosrad = cos(radians);
+    double sinrad = sin(radians);
+
+    mat4_set(res, (mat4){
+        {cosrad+pow(rx, 2)*(1-cosrad), rx*ry*(1-cosrad)-rz*sinrad, rx*rz*(1-cosrad) + ry*sinrad, 0},
+        {ry*rx*(1-cosrad)+rz*sinrad, cosrad+pow(ry, 2)*(1-cosrad), ry*rz*(1-cosrad)-rx*sinrad, 0},
+        {rz*rx*(1-cosrad)-ry*sinrad, rx*ry*(1-cosrad)+rx*sinrad, cosrad+pow(rz, 2)*(1-cosrad), 0},
+        {0, 0, 0, 1},
+    });
+}
+
 
 /* Matrix and vector functions */
 
