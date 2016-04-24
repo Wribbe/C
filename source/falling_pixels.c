@@ -63,9 +63,13 @@ int main(void) {
     const GLchar * vertexShaderSource = \
         "#version 330 core\n"
         "layout (location = 0) in vec3 position;\n"
+        "\n"
+        "uniform mat4 transform;\n"
+        "\n"
         "void main()\n"
         "{\n"
-        "   gl_Position = vec4(position.x, position.y, position.z, 1.0);\n"
+        "   gl_Position = transform * vec4(position, 1.0f);\n"
+        //"   gl_Position = vec4(position, 1.0f);\n"
         "}\n";
 
     GLuint vertexShader;
@@ -144,6 +148,15 @@ int main(void) {
 
     glfwSetKeyCallback(window, key_callback);
 
+    mat4 transform = {0};
+
+    mat4_set(transform, m4id);
+    mfl4_scale(transform, transform, 0.5f);
+
+    mat4_print(transform);
+
+    GLuint transform_location = glGetUniformLocation(shaderProgram, "transform");
+
     while(!glfwWindowShouldClose(window)) {
 
         /* Poll for and process events. */
@@ -154,6 +167,9 @@ int main(void) {
         glClear(GL_COLOR_BUFFER_BIT);
 
         glUseProgram(shaderProgram);
+
+        glUniformMatrix4fv(transform_location, 1, GL_FALSE, mat_ptr(transform));
+
         glBindVertexArray(VAO);
         glDrawArrays(GL_TRIANGLES, 0, 6);
         glBindVertexArray(0);
