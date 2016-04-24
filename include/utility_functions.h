@@ -150,4 +150,8 @@ void mfl4_sub(mat4 res, mat4 A, float f);
 void mfl3_sub(mat3 res, mat3 A, float f);
 void mfl2_sub(mat2 res, mat2 A, float f);
 
+void mfl4_scale(mat4 res, mat4 A, float f);
+void mfl3_scale(mat3 res, mat3 A, float f);
+void mfl2_scale(mat2 res, mat2 A, float f);
+
 #endif

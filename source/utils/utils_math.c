@@ -311,6 +311,32 @@ void mfl2_sub(mat2 res, mat2 A, float f) {
     mfl_iterate(&res[0][0], &A[0][0], f, 2, &op_sub);
 }
 
+void mfl_scale(float * res, float * A, float f, size_t dim) {
+    size_t index;
+    for(size_t i=0; i<dim; i++) {
+        for(size_t j=0; j<dim; j++) {
+            if (i == dim-1 || j == dim-1) {
+                continue; /* Only scale x/y-coordinates, not w. */
+            }
+            index = mat_index(i, j, dim);
+            res[index] = A[index]*f;
+        }
+    }
+}
+
+void mfl4_scale(mat4 res, mat4 A, float f) {
+    mfl_scale(&res[0][0], &A[0][0], f, 4);
+}
+
+void mfl3_scale(mat3 res, mat3 A, float f) {
+    mfl_scale(&res[0][0], &A[0][0], f, 3);
+}
+
+void mfl2_scale(mat2 res, mat2 A, float f) {
+    mfl_scale(&res[0][0], &A[0][0], f, 2);
+}
+
+
 /* Matrix and vector functions */
 
 void mve_iterate(float * dest, float * M, float * v, size_t size, float (*op)(float a, float b)) {
