@@ -38,6 +38,24 @@ typedef float vec2[2];
 typedef float vec3[3];
 typedef float vec4[4];
 
+#define m4id (mat4){ \
+        {1.0f, 0.0f, 0.0f, 0.0f}, \
+        {0.0f, 1.0f, 0.0f, 0.0f}, \
+        {0.0f, 0.0f, 1.0f, 0.0f}, \
+        {0.0f, 0.0f, 0.0f, 1.0f}, \
+    }
+
+#define m3id (mat3){ \
+        {1.0f, 0.0f, 0.0f}, \
+        {0.0f, 1.0f, 0.0f}, \
+        {0.0f, 0.0f, 1.0f}, \
+    }
+
+#define m2id (mat2){ \
+        {1.0f, 0.0f}, \
+        {0.0f, 1.0f}, \
+    }
+
 /* Matrix functions. */
 
 void mat4_mul(mat4 res, mat4 A, mat4 B);

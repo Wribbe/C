@@ -328,10 +328,10 @@ char * test_config_parser(void) {
 char * test_maths(void) {
 
     mat4 m4a = {0};
-    mat4_identity(m4a);
+    mat4_set(m4a, m4id);
 
     mat4 m4b = {0};
-    mat4_identity(m4b);
+    mat4_set(m4b, m4id);
 
     mat4 m4res = {0};
 
