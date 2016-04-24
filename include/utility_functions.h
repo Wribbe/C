@@ -7,6 +7,8 @@
 /* Macro definitions. */
 #define ERROR(message) do { fprintf(stderr, "ERROR: [%s:%s]: %s\n", __FILE__,__func__,message); return -1; } while(0)
 
+#define mat_ptr(matrix) &matrix[0][0]
+
 typedef struct Dictionary Dictionary;
 
 Dictionary * dictionary_create(size_t dict_size);
