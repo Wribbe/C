@@ -341,11 +341,11 @@ char * test_maths(void) {
         {0.0f, 0.0f, 0.0f, 1.0f},
     };
 
-    mat4 v4res = {0};
+    mat4 m4res = {0};
 
-    mat4_mul(v4res, m4a, m4b);
+    mat4_mul(m4res, m4a, m4b);
 
-    mu_assert("v4res != A", mat4_cmp(v4res, m4a));
+    mu_assert("m4res != A", mat4_cmp(m4res, m4a));
 
     mat2 m2a = {
         { 2.0f,  3.0f},
@@ -388,8 +388,8 @@ char * test_maths(void) {
         {37.0f, 30.0f, 47.0f, 82.0f},
     };
 
-    mat4_mul(v4res, m4a, m4b);
-    mu_assert("v4res != m4corr", mat4_cmp(v4res, m4corr));
+    mat4_mul(m4res, m4a, m4b);
+    mu_assert("m4res != m4corr", mat4_cmp(m4res, m4corr));
 
     /* Test addition of m2a and m2b. */
     mat2_set(m2corr ,(mat2){
@@ -409,13 +409,13 @@ char * test_maths(void) {
         {12.0f, 10.0f, 8.0f, 8.0f},
     });
 
-    mfl4_mul(v4res, m4a, 2.0f);
-    mu_assert("m4a * 2 does not equal m4corr.", mat4_cmp(v4res, m4corr));
+    mfl4_mul(m4res, m4a, 2.0f);
+    mu_assert("m4a * 2 does not equal m4corr.", mat4_cmp(m4res, m4corr));
 
     /* Test dividing matrix with float. */
 
-    mfl4_div(v4res, m4corr, 2.0f);
-    mu_assert("rel4 not equal m4a when dividing by 2.0f", mat4_cmp(v4res, m4a));
+    mfl4_div(m4res, m4corr, 2.0f);
+    mu_assert("rel4 not equal m4a when dividing by 2.0f", mat4_cmp(m4res, m4a));
 
     /* Test addition of float to matrix. */
 
