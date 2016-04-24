@@ -471,6 +471,33 @@ char * test_maths(void) {
 
     mu_assert("m3res not equal m3coor after adding v3a to m3a.", mat3_cmp(m3res, m3corr));
 
+    /* Test matrix addition. */
+
+    mat4_set(m4a, (mat4){
+        {1.0f, 2.0f, 3.0f, 4.0f},
+        {1.0f, 2.0f, 3.0f, 4.0f},
+        {1.0f, 2.0f, 3.0f, 4.0f},
+        {1.0f, 2.0f, 3.0f, 4.0f},
+    });
+
+    mat4_set(m4b, (mat4){
+        {1.0f, 2.0f, 3.0f, 4.0f},
+        {1.0f, 2.0f, 3.0f, 4.0f},
+        {1.0f, 2.0f, 3.0f, 4.0f},
+        {1.0f, 2.0f, 3.0f, 4.0f},
+    });
+
+    mat4_set(m4corr, (mat4){
+        {2.0f, 4.0f, 6.0f, 8.0f},
+        {2.0f, 4.0f, 6.0f, 8.0f},
+        {2.0f, 4.0f, 6.0f, 8.0f},
+        {2.0f, 4.0f, 6.0f, 8.0f},
+    });
+
+    mat4_add(m4res, m4a, m4b);
+
+    mu_assert("m4res not equal m4corr after addition of m4a+m4b.", mat4_cmp(m4res, m4corr));
+
     return 0;
 }
 
