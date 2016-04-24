@@ -327,19 +327,11 @@ char * test_config_parser(void) {
 
 char * test_maths(void) {
 
-    mat4 m4a = {
-        {1.0f, 0.0f, 0.0f, 0.0f},
-        {0.0f, 1.0f, 0.0f, 0.0f},
-        {0.0f, 0.0f, 1.0f, 0.0f},
-        {0.0f, 0.0f, 0.0f, 1.0f},
-    };
+    mat4 m4a = {0};
+    mat4_identity(m4a);
 
-    mat4 m4b = {
-        {1.0f, 0.0f, 0.0f, 0.0f},
-        {0.0f, 1.0f, 0.0f, 0.0f},
-        {0.0f, 0.0f, 1.0f, 0.0f},
-        {0.0f, 0.0f, 0.0f, 1.0f},
-    };
+    mat4 m4b = {0};
+    mat4_identity(m4b);
 
     mat4 m4res = {0};
 

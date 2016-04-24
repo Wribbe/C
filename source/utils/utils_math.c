@@ -172,6 +172,30 @@ void mat2_set(mat2 dest, mat2 source) {
     mat_set(&dest[0][0], &source[0][0], 2);
 }
 
+void mat4_identity(mat4 res) {
+    mat4_set(res, (mat4) {
+        {1.0f, 0.0f, 0.0f, 0.0f},
+        {0.0f, 1.0f, 0.0f, 0.0f},
+        {0.0f, 0.0f, 1.0f, 0.0f},
+        {0.0f, 0.0f, 0.0f, 1.0f},
+    });
+}
+
+void mat3_identity(mat3 res) {
+    mat3_set(res, (mat3) {
+        {1.0f, 0.0f, 0.0f},
+        {0.0f, 1.0f, 0.0f},
+        {0.0f, 0.0f, 1.0f},
+    });
+}
+
+void mat2_identity(mat2 res) {
+    mat2_set(res, (mat2) {
+        {1.0f, 0.0f},
+        {0.0f, 1.0f},
+    });
+}
+
 /* Vectors. */
 
 void vec_iteration(float * dest, float * a, float * b, size_t vec_size, float (*op)(float a, float b)) {
