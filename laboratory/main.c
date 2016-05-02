@@ -45,5 +45,13 @@ static int patestCallback( const void * inputBuffer,
 
 
 int main(void) {
-    printf("HELLO WORLD!\n");
+    PaError err = Pa_Initialize();
+    if(err != paNoError) {
+        printf("Portaudio error: %s\n", Pa_GetErrorText(err));
+    }
+
+    err = Pa_Terminate();
+    if(err != paNoError) {
+        printf("Portaudio error: %s\n", Pa_GetErrorText(err));
+    }
 }
