@@ -1,10 +1,13 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <stdbool.h>
 
 #include "falling_pixels.h"
 #include "utility_functions.h"
 
 #define UNUSED(x) (void)x
+
+bool keymap[1024] = {0};
 
 GLfloat vertices[] = {
     -0.5f, -0.5f, 0.0f,
@@ -15,9 +18,12 @@ GLfloat vertices[] = {
 void key_callback(GLFWwindow * window, int key, int scancode, int action, int mods) {
     UNUSED(scancode);
     UNUSED(mods);
+    UNUSED(window);
 
-    if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) {
-        glfwSetWindowShouldClose(window, GL_TRUE);
+    if (action == GLFW_PRESS) {
+        keymap[key] = true;
+    } else {
+        keymap[key] = false;
     }
 }
 
@@ -28,6 +34,12 @@ void error(const char * message) {
 
 int to_int(const char * string) {
     return strtol(string, NULL, 10);
+}
+
+void event_processing(bool * keymap, GLFWwindow * window) {
+    if (keymap[GLFW_KEY_ESCAPE]) {
+        glfwSetWindowShouldClose(window, GL_TRUE);
+    }
 }
 
 int main(void) {
@@ -175,6 +187,7 @@ int main(void) {
 
         /* Poll for and process events. */
         glfwPollEvents();
+        event_processing(keymap, window);
 
         /* Render here. */
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
