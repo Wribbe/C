@@ -165,10 +165,13 @@ int main(void) {
     mat4_set(transform, temp);
     mat4_print(transform);
 
-
     GLuint transform_location = glGetUniformLocation(shaderProgram, "transform");
 
+    float x_displacement = 0.0f;
+
     while(!glfwWindowShouldClose(window)) {
+
+        mat4_set(temp, m4id);
 
         /* Poll for and process events. */
         glfwPollEvents();
@@ -179,7 +182,12 @@ int main(void) {
 
         glUseProgram(shaderProgram);
 
-        glUniformMatrix4fv(transform_location, 1, MATORD, mat_ptr(transform));
+        /* Set temp matrix to transform matrix. */
+        mat4_set(temp, transform);
+        /* Translate temp matrix with x_displacement. */
+        mve4_translate(temp, temp, (vec3){x_displacement, 0.0f, 0.0f});
+
+        glUniformMatrix4fv(transform_location, 1, MATORD, mat_ptr(temp));
 
         glBindVertexArray(VAO);
         glDrawArrays(GL_TRIANGLES, 0, 6);
@@ -188,6 +196,10 @@ int main(void) {
         /* Swap from and back buffers. */
         glfwSwapBuffers(window);
 
+        if (temp[0][3]+x_displacement >= 1.0f) {
+            x_displacement = 0.0f;
+        }
+        x_displacement += 0.01f;
     }
 
     glfwTerminate();

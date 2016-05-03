@@ -92,8 +92,6 @@ void mat4_print(mat4 A);
 void mat3_print(mat3 A);
 void mat2_print(mat2 A);
 
-void mat4_identity(mat4 res);
-
 /* Vector functions. */
 
 void vec4_add(vec4 res, vec4 a, vec4 b);
