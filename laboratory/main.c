@@ -3,6 +3,8 @@
 
 #include "portaudio.h"
 
+#define UNUSED(x) (void)x
+
 typedef struct {
     float left_phase;
     float right_phase;
@@ -20,6 +22,10 @@ static int patestCallback( const void * inputBuffer,
                            PaStreamCallbackFlags statusFlags,
                            void * userData ) {
     /* Cast data passed through stream to our structure. */
+
+    UNUSED(timeInfo);
+    UNUSED(statusFlags);
+
     paTestData * data = (paTestData*)userData;
     float *out = (float*)outputBuffer;
     unsigned int i;
@@ -43,15 +49,55 @@ static int patestCallback( const void * inputBuffer,
     return 0;
 }
 
+#define SAMPLE_RATE (44100)
+#define NUM_SECONDS (2)
+static paTestData data;
 
 int main(void) {
     PaError err = Pa_Initialize();
     if(err != paNoError) {
-        printf("Portaudio error: %s\n", Pa_GetErrorText(err));
+        goto error;
+    }
+
+    PaStream * stream;
+
+    err = Pa_OpenDefaultStream(&stream,
+                               0, /* no input channels. */
+                               2, /* stereo output. */
+                               paFloat32, /* 32 bit floating point output. */
+                               SAMPLE_RATE,
+                               256, /* frame per buffer, number of samples that
+                                       PortAudio will request from the
+                                       callback. Many apps may want to use
+                                       paFramesPerBufferUnspecified, which
+                                       tells portAudio to pick the best
+                                       possibly changing buffer size.*/
+                               patestCallback, /* callback function. */
+                               &data); /* Pointer passed to callback function. */
+
+    if (err != paNoError ) {
+        goto error;
+    }
+
+    err = Pa_StartStream(stream);
+    if (err != paNoError) {
+        goto error;
+    }
+
+    Pa_Sleep(NUM_SECONDS*1000);
+
+    err = Pa_StopStream(stream);
+    if(err != paNoError) {
+        goto error;
     }
 
     err = Pa_Terminate();
     if(err != paNoError) {
-        printf("Portaudio error: %s\n", Pa_GetErrorText(err));
+        goto error;
     }
+    return err;
+error:
+    printf("Portaudio error: %s\n", Pa_GetErrorText(err));
+    Pa_Terminate();
+    return err;
 }
