@@ -19,6 +19,7 @@ typedef struct Event_data{
     float xdiff;
     float ydiff;
     float zdiff;
+    float rotation;
 } Event_data;
 
 void init_event_data(Event_data * event_data) {
@@ -49,22 +50,34 @@ int to_int(const char * string) {
 }
 
 void event_processing(bool * keymap, GLFWwindow * window, Event_data * event_data) {
+
     float x_speed = 0.03f;
     float y_speed = 0.03f;
-    if (keymap[GLFW_KEY_ESCAPE]) {
-        glfwSetWindowShouldClose(window, GL_TRUE);
-    }
-    if (keymap[GLFW_KEY_H]) {
-        event_data->xdiff -= x_speed;
-    }
-    if (keymap[GLFW_KEY_U]) {
-        event_data->xdiff += x_speed;
-    }
-    if (keymap[GLFW_KEY_N]) {
-        event_data->ydiff += y_speed;
-    }
-    if (keymap[GLFW_KEY_Y]) {
-        event_data->ydiff -= y_speed;
+    float rotation_speed = 0.1f;
+
+    if (keymap[GLFW_KEY_SPACE]) {
+        if (keymap[GLFW_KEY_H]) {
+            event_data->rotation -= rotation_speed;
+        }
+        if (keymap[GLFW_KEY_U]) {
+            event_data->rotation += rotation_speed;
+        }
+    } else {
+        if (keymap[GLFW_KEY_ESCAPE]) {
+            glfwSetWindowShouldClose(window, GL_TRUE);
+        }
+        if (keymap[GLFW_KEY_H]) {
+            event_data->xdiff -= x_speed;
+        }
+        if (keymap[GLFW_KEY_U]) {
+            event_data->xdiff += x_speed;
+        }
+        if (keymap[GLFW_KEY_N]) {
+            event_data->ydiff += y_speed;
+        }
+        if (keymap[GLFW_KEY_Y]) {
+            event_data->ydiff -= y_speed;
+        }
     }
 }
 
@@ -209,6 +222,7 @@ int main(void) {
     float x_displacement = 0.0f;
     Event_data event_data;
     init_event_data(&event_data);
+    mat4 multemp = {0};
 
     while(!glfwWindowShouldClose(window)) {
 
@@ -228,8 +242,10 @@ int main(void) {
         mat4_set(temp, transform);
         /* Translate temp matrix with x_displacement. */
         mve4_translate(temp, temp, (vec3){event_data.xdiff, event_data.ydiff, event_data.zdiff});
+        mfv4_rotate(rotation, M_PI*event_data.rotation, (vec3){0.0f, 0.0f, -1.0f});
+        mat4_mul(multemp, temp, rotation);
 
-        glUniformMatrix4fv(transform_location, 1, MATORD, mat_ptr(temp));
+        glUniformMatrix4fv(transform_location, 1, MATORD, mat_ptr(multemp));
 
         glBindVertexArray(VAO);
         glDrawArrays(GL_TRIANGLES, 0, 6);
