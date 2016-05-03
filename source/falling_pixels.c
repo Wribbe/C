@@ -15,14 +15,26 @@ GLfloat vertices[] = {
      0.5f,  0.5f, 0.0f,
 };
 
+typedef struct Event_data{
+    float xdiff;
+    float ydiff;
+    float zdiff;
+} Event_data;
+
+void init_event_data(Event_data * event_data) {
+    event_data->xdiff = 0.0f;
+    event_data->ydiff = 0.0f;
+    event_data->zdiff = 0.0f;
+}
+
 void key_callback(GLFWwindow * window, int key, int scancode, int action, int mods) {
     UNUSED(scancode);
     UNUSED(mods);
     UNUSED(window);
 
-    if (action == GLFW_PRESS) {
+    if (action == GLFW_PRESS && !keymap[key]) {
         keymap[key] = true;
-    } else {
+    } else if (action == GLFW_RELEASE && keymap[key]) {
         keymap[key] = false;
     }
 }
@@ -36,9 +48,23 @@ int to_int(const char * string) {
     return strtol(string, NULL, 10);
 }
 
-void event_processing(bool * keymap, GLFWwindow * window) {
+void event_processing(bool * keymap, GLFWwindow * window, Event_data * event_data) {
+    float x_speed = 0.03f;
+    float y_speed = 0.03f;
     if (keymap[GLFW_KEY_ESCAPE]) {
         glfwSetWindowShouldClose(window, GL_TRUE);
+    }
+    if (keymap[GLFW_KEY_H]) {
+        event_data->xdiff -= x_speed;
+    }
+    if (keymap[GLFW_KEY_U]) {
+        event_data->xdiff += x_speed;
+    }
+    if (keymap[GLFW_KEY_N]) {
+        event_data->ydiff += y_speed;
+    }
+    if (keymap[GLFW_KEY_Y]) {
+        event_data->ydiff -= y_speed;
     }
 }
 
@@ -159,6 +185,7 @@ int main(void) {
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
     glfwSetKeyCallback(window, key_callback);
+    glfwSetInputMode(window, GLFW_STICKY_KEYS, 1);
 
     mat4 transform = {0};
 
@@ -180,6 +207,8 @@ int main(void) {
     GLuint transform_location = glGetUniformLocation(shaderProgram, "transform");
 
     float x_displacement = 0.0f;
+    Event_data event_data;
+    init_event_data(&event_data);
 
     while(!glfwWindowShouldClose(window)) {
 
@@ -187,7 +216,7 @@ int main(void) {
 
         /* Poll for and process events. */
         glfwPollEvents();
-        event_processing(keymap, window);
+        event_processing(keymap, window, &event_data);
 
         /* Render here. */
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
@@ -198,7 +227,7 @@ int main(void) {
         /* Set temp matrix to transform matrix. */
         mat4_set(temp, transform);
         /* Translate temp matrix with x_displacement. */
-        mve4_translate(temp, temp, (vec3){x_displacement, 0.0f, 0.0f});
+        mve4_translate(temp, temp, (vec3){event_data.xdiff, event_data.ydiff, event_data.zdiff});
 
         glUniformMatrix4fv(transform_location, 1, MATORD, mat_ptr(temp));
 
