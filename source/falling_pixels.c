@@ -5,9 +5,46 @@
 #include "falling_pixels.h"
 #include "utility_functions.h"
 
+#include "portaudio.h"
+#define NUM_SECONDS   (4)
+#define SAMPLE_RATE   (44100)
+
 #define UNUSED(x) (void)x
 
 bool keymap[1024] = {0};
+
+typedef struct {
+    float left_phase;
+    float right_phase;
+} paTestData;
+
+static int patestCallback(const void *inputBuffer, void *outputBuffer,
+                          unsigned long framesPerBuffer,
+                          const PaStreamCallbackTimeInfo* timeInfo,
+                          PaStreamCallbackFlags statusFlags,
+                          void *userData) {
+    (void) statusFlags;
+    (void) timeInfo;
+    /* Cast data passed through stream to our structure. */
+    paTestData *data = (paTestData*)userData;
+    float *out = (float*)outputBuffer;
+    unsigned int i;
+    (void) inputBuffer; /* Prevent unused variable warning. */
+
+    for( i=0; i<framesPerBuffer; i++ )
+    {
+        *out++ = data->left_phase;  /* left */
+        *out++ = data->right_phase;  /* right */
+        /* Generate simple sawtooth phaser that ranges between -1.0 and 1.0. */
+        data->left_phase += 0.01f;
+        /* When signal reaches top, drop back down. */
+        if( data->left_phase >= 1.0f ) data->left_phase -= 2.0f;
+        /* higher pitch so we can distinguish left and right. */
+        data->right_phase += 0.03f;
+        if( data->right_phase >= 1.0f ) data->right_phase -= 2.0f;
+    }
+    return 0;
+}
 
 GLfloat vertices[] = {
     -0.5f, -0.5f, 0.0f,
@@ -81,6 +118,8 @@ void event_processing(bool * keymap, GLFWwindow * window, Event_data * event_dat
     }
 }
 
+static paTestData data;
+
 int main(void) {
 
     if (!glfwInit()) {
@@ -110,6 +149,31 @@ int main(void) {
     if(glewInit() != GLEW_OK) {
         error("Could not initialize GLEW.");
     }
+
+    /* Set up audio. */
+
+    PaStream *stream;
+    PaError err;
+
+    data.left_phase = data.right_phase = 0.0;
+    err = Pa_Initialize();
+    if( err != paNoError ) {
+        error("Initialization of PortAudio failed.");
+    }
+    err = Pa_OpenDefaultStream( &stream,
+                                0,          /* no input channels */
+                                2,          /* stereo output */
+                                paFloat32,  /* 32 bit floating point output */
+                                SAMPLE_RATE,
+                                256,        /* frames per buffer */
+                                patestCallback,
+                                &data );
+    if( err != paNoError ) {
+        error("PortAudio could not open stream.");
+    }
+    err = Pa_StartStream( stream );
+
+    /* Shaders. */
 
     const GLchar * vertexShaderSource = \
         "#version 330 core\n"

@@ -1,14 +1,15 @@
-
 CC = cc
-
-CFLAGS := -Wall -Wextra -pedantic -g -Wwrite-strings
-GRAPHICS_FLAGS  := -lGLEW -lglfw3 -lGL -lX11 -lXrandr -lXi -lXxf86vm -lm -ldl -lXinerama -lXcursor -lrt -lpthread
-SOUND_FLAGS :=  -lportaudio -lasound
 
 # Tracked folders.
 D_SRC := source
 D_INC := include
 D_SUP := valgrind_suppression
+D_LIB := libs
+
+CFLAGS := -Wall -Wextra -pedantic -g -Wwrite-strings
+GRAPHICS_FLAGS  := -lGLEW -lglfw3 -lGL -lX11 -lXrandr -lXi -lXxf86vm -lm -ldl -lXinerama -lXcursor -lrt -lpthread
+SOUND_FLAGS :=  -lportaudio -lasound -ljack
+LIB_FLAGS := $(D_LIB)/libportaudio.a
 
 # Generated folders.
 D_EXEC := executables
@@ -53,11 +54,10 @@ clean:
 	$(info Done.)
 
 falling_pixels: $(D_OBJ)/falling_pixels.o $(D_OBJ)/utility_functions.o | mk_$(D_EXEC)
-	$(CC) -o $(D_EXEC)/falling_pixels $(D_OBJ)/falling_pixels.o $(D_OBJ)/utility_functions.o $(CFLAGS) $(GRAPHICS_FLAGS)
+	$(CC) -o $(D_EXEC)/falling_pixels $(D_OBJ)/falling_pixels.o $(D_OBJ)/utility_functions.o $(LIB_FLAGS) $(CFLAGS) $(GRAPHICS_FLAGS) $(SOUND_FLAGS)
 
-$(D_OBJ)/falling_pixels.o: $(D_SRC)/falling_pixels.c $(D_INC)/falling_pixels.h $(D_INC)/utility_functions.h | mk_$(D_OBJ)
-	$(CC) -c $(D_SRC)/falling_pixels.c -o $(D_OBJ)/falling_pixels.o \
-	$(GRAPHICS_FLAGS) $(CFLAGS) $(INCLUDE_FLAGS)
+$(D_OBJ)/falling_pixels.o: $(D_SRC)/falling_pixels.c $(D_INC)/falling_pixels.h $(D_INC)/utility_functions.h $(D_INC)/portaudio.h $(D_INC)/pa_util.h | mk_$(D_OBJ)
+	$(CC) -c $(D_SRC)/falling_pixels.c -o $(D_OBJ)/falling_pixels.o
 
 # Utility modules.
 
