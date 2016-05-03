@@ -336,7 +336,7 @@ void mfl2_scale(mat2 res, mat2 A, float f) {
     mfl_scale(&res[0][0], &A[0][0], f, 2);
 }
 
-void mfl4_rotate(mat4 res, float radians, vec3 rotation) {
+void mfv4_rotate(mat4 res, float radians, vec3 rotation) {
 
     double rx = rotation[0];
     double ry = rotation[1];

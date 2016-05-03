@@ -196,7 +196,7 @@ int main(void) {
     mat4_print(transform);
 
     mat4 rotation = {0};
-    mfl4_rotate(rotation, 0.25*M_PI, (vec3){0.0f, 0.0f, 1.0f});
+    mfv4_rotate(rotation, 0.25*M_PI, (vec3){0.0f, 0.0f, 1.0f});
 
     mat4 temp = {0};
     mat4_mul(temp, transform, rotation);
