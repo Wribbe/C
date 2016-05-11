@@ -12,11 +12,22 @@
 #define UNUSED(x) (void)x
 
 bool keymap[1024] = {0};
+double mouse_pos[2] = {0};
 
 typedef struct {
     float left_phase;
     float right_phase;
 } paTestData;
+
+
+static void cursor_position_callback(GLFWwindow * window, double xpos, double ypos) {
+    if (xpos > 0.0f) {
+        mouse_pos[0] = xpos;
+    }
+    if (ypos > 0.0f) {
+        mouse_pos[1] = ypos;
+    }
+}
 
 static int patestCallback(const void *inputBuffer, void *outputBuffer,
                           unsigned long framesPerBuffer,
@@ -265,11 +276,12 @@ int main(void) {
     glfwSetKeyCallback(window, key_callback);
     glfwSetInputMode(window, GLFW_STICKY_KEYS, 1);
 
+    glfwSetCursorPosCallback(window, cursor_position_callback);
+
     mat4 transform = {0};
 
     mat4_set(transform, m4id);
     mfl4_scale(transform, transform, 0.5f);
-    mve4_translate(transform, transform, (vec3){0.5f, 0.5f, 0.0f});
 
     mat4_print(transform);
 
@@ -288,6 +300,8 @@ int main(void) {
     Event_data event_data;
     init_event_data(&event_data);
     mat4 multemp = {0};
+
+    double adjusted_x, adjusted_y;
 
     while(!glfwWindowShouldClose(window)) {
 
@@ -329,6 +343,9 @@ int main(void) {
         } else {
             Pa_StopStream(stream);
         }
+        adjusted_x = mouse_pos[0]/width;
+        adjusted_y = mouse_pos[1]/height;
+        printf("mouse, x: %f, y: %f\n", adjusted_x, adjusted_y);
     }
 
     glfwTerminate();
