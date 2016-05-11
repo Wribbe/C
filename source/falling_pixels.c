@@ -171,7 +171,8 @@ int main(void) {
     if( err != paNoError ) {
         error("PortAudio could not open stream.");
     }
-    err = Pa_StartStream( stream );
+
+    //err = Pa_StartStream( stream );
 
     /* Shaders. */
 
@@ -322,6 +323,12 @@ int main(void) {
             x_displacement = 0.0f;
         }
         x_displacement += 0.01f;
+
+        if (keymap[GLFW_KEY_SPACE]) {
+            Pa_StartStream(stream);
+        } else {
+            Pa_StopStream(stream);
+        }
     }
 
     glfwTerminate();
