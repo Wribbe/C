@@ -57,7 +57,7 @@ falling_pixels: $(D_OBJ)/falling_pixels.o $(D_OBJ)/utility_functions.o | mk_$(D_
 	$(CC) -o $(D_EXEC)/falling_pixels $(D_OBJ)/falling_pixels.o $(D_OBJ)/utility_functions.o $(LIB_FLAGS) $(CFLAGS) $(GRAPHICS_FLAGS) $(SOUND_FLAGS)
 
 $(D_OBJ)/falling_pixels.o: $(D_SRC)/falling_pixels.c $(D_INC)/falling_pixels.h $(D_INC)/utility_functions.h $(D_INC)/portaudio.h $(D_INC)/pa_util.h | mk_$(D_OBJ)
-	$(CC) -c $(D_SRC)/falling_pixels.c -o $(D_OBJ)/falling_pixels.o
+	$(CC) -c $(D_SRC)/falling_pixels.c -o $(D_OBJ)/falling_pixels.o $(INCLUDE_FLAGS)
 
 # Utility modules.
 
