@@ -139,6 +139,51 @@ void event_processing(bool * keymap, GLFWwindow * window, Event_data * event_dat
     }
 }
 
+void tri_center(float * coords, vec3 result) {
+    /*
+     * [x1][y1][z1] [0*3,_]
+     * [x2][y2][z2] [1*3,_]
+     * [x3][y3][z3] [2*3,_]
+     */
+
+    float x1 = coords[3*0+0];
+    float x2 = coords[3*1+0];
+    float x3 = coords[3*2+0];
+
+    float y1 = coords[3*0+1];
+    float y2 = coords[3*1+1];
+    float y3 = coords[3*2+1];
+
+    float sum_x = x1+x2+x3;
+    float sum_y = y1+y2+y3;
+
+    result[0] = sum_x/3.0f;
+    result[1] = sum_y/3.0f;
+    result[3] = 0.0f;
+}
+
+void center_rotation(mat4 rotation, float angle, vec3 axis, vec3 new_coords) {
+
+    mat4 trans_origo, trans_back, temp_rot, temp_mul;
+    vec3 mass_center = {0};
+
+    mat4_set(trans_origo, m4id);
+    mat4_set(trans_back, m4id);
+    mat4_set(temp_rot, m4id);
+    mat4_set(temp_mul, m4id);
+
+    tri_center(new_coords, mass_center);
+
+    mve4_translate(trans_origo, trans_origo, (vec3){-mass_center[0], -mass_center[1], 0.0f});
+    mfv4_rotate(temp_rot, angle, axis);
+    mve4_translate(trans_back, trans_back, (vec3){mass_center[0], mass_center[1], 0.0f});
+
+    mat4_mul(temp_mul, trans_back, temp_rot);
+    mat4_mul(trans_back, temp_mul, trans_origo);
+
+    mat4_set(rotation, trans_back);
+}
+
 static paTestData data;
 
 int main(void) {
