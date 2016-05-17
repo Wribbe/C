@@ -67,9 +67,9 @@ static int patestCallback(const void *inputBuffer, void *outputBuffer,
 }
 
 GLfloat vertices[] = {
-    -0.5f, -0.5f, 0.0f,
-     0.5f, -0.5f, 0.0f,
      0.5f,  0.5f, 0.0f,
+    -0.5f,  0.5f, 0.0f,
+     0.0f, -0.5f, 0.0f,
 };
 
 typedef struct Event_data{
@@ -83,6 +83,7 @@ void init_event_data(Event_data * event_data) {
     event_data->xdiff = 0.0f;
     event_data->ydiff = 0.0f;
     event_data->zdiff = 0.0f;
+    event_data->rotation = 0.0f;
 }
 
 void key_callback(GLFWwindow * window, int key, int scancode, int action, int mods) {
