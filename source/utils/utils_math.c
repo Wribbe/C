@@ -53,6 +53,7 @@ void mat_iter_p(float * A, size_t mat_size) {
         }
         printf("\n");
     }
+    printf("\n");
 }
 
 void mat4_print(mat4 A) {
