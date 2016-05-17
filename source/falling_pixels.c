@@ -290,20 +290,21 @@ int main(void) {
     glfwSetMouseButtonCallback(window, mouse_button_callback);
 
     mat4 transform = {0};
+    mat4 rotation = {0};
+    mat4 temp = {0};
 
     mat4_set(transform, m4id);
-    mfl4_scale(transform, transform, 0.5f);
-
-    mat4_print(transform);
-
-    mat4 rotation = {0};
-    mfv4_rotate(rotation, 0.25*M_PI, (vec3){0.0f, 0.0f, 1.0f});
-
-    mat4 temp = {0};
-    mat4_mul(temp, transform, rotation);
-
-    mat4_set(transform, temp);
-    mat4_print(transform);
+//    mfl4_scale(transform, transform, 0.5f);
+//
+//    mat4_print(transform);
+//
+//    mfv4_rotate(rotation, 0.25*M_PI, (vec3){0.0f, 0.0f, 1.0f});
+//
+//    mat4 temp = {0};
+//    mat4_mul(temp, transform, rotation);
+//
+//    mat4_set(transform, temp);
+//    mat4_print(transform);
 
     GLuint transform_location = glGetUniformLocation(shaderProgram, "transform");
 
@@ -312,14 +313,43 @@ int main(void) {
     init_event_data(&event_data);
     mat4 multemp = {0};
 
-    double adjusted_x, adjusted_y;
+    float adjusted_x, adjusted_y;
+
+    bool prev_mouse = false;
+
+    int current_index = 0;
+    int total_indices = 3;
+    int total_coords = total_indices*3;
+
+    float new_coords[total_coords];
+    for (int i=0; i<total_coords; i++) {
+        new_coords[i] = 0.0f;
+    }
 
     while(!glfwWindowShouldClose(window)) {
 
         mat4_set(temp, m4id);
 
         /* Poll for and process events. */
+        prev_mouse = mousemap[GLFW_MOUSE_BUTTON_LEFT];
         glfwPollEvents();
+        if (prev_mouse && !mousemap[GLFW_MOUSE_BUTTON_LEFT]) {
+
+            adjusted_x = ((mouse_pos[0]/width)*2.0f)-1.0f;
+            adjusted_y = ((mouse_pos[1]/height)*-2.0f)+1.0f;
+
+            new_coords[current_index*3+0] = adjusted_x;
+            new_coords[current_index*3+1] = adjusted_y;
+            new_coords[current_index*3+2] = 0.0f;
+
+            current_index += 1;
+            if (current_index >= total_indices) {
+                current_index = 0;
+                glBindBuffer(GL_ARRAY_BUFFER, VBO);
+                glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(GLfloat)*total_coords, (void*)&new_coords);
+                init_event_data(&event_data);
+            }
+        }
         event_processing(keymap, window, &event_data);
 
         /* Render here. */
@@ -332,8 +362,11 @@ int main(void) {
         mat4_set(temp, transform);
         /* Translate temp matrix with x_displacement. */
         mve4_translate(temp, temp, (vec3){event_data.xdiff, event_data.ydiff, event_data.zdiff});
-        mfv4_rotate(rotation, M_PI*event_data.rotation, (vec3){0.0f, 0.0f, -1.0f});
+        //mfv4_rotate(rotation, M_PI*event_data.rotation, (vec3){0.0f, 0.0f, -1.0f});
+        center_rotation(rotation, M_PI*event_data.rotation, (vec3){0.0f, 0.0f, -1.0f}, new_coords);
+        mat4_print(rotation);
         mat4_mul(multemp, temp, rotation);
+        mat4_print(multemp);
 
         glUniformMatrix4fv(transform_location, 1, MATORD, mat_ptr(multemp));
 
@@ -353,11 +386,6 @@ int main(void) {
             Pa_StartStream(stream);
         } else {
             Pa_StopStream(stream);
-        }
-        if (mousemap[GLFW_MOUSE_BUTTON_LEFT]) {
-            adjusted_x = mouse_pos[0]/width;
-            adjusted_y = mouse_pos[1]/height;
-            printf("Current coords: %f,%f\n", adjusted_x, adjusted_y);
         }
     }
 
