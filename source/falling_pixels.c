@@ -373,6 +373,9 @@ int main(void) {
         temp_coords[i] = 0.0f;
     }
 
+    vec3 mass_center = {0};
+    float curr_x,curr_y,curr_z;
+
     while(!glfwWindowShouldClose(window)) {
 
         mat4_set(temp, m4id);
@@ -412,9 +415,36 @@ int main(void) {
         mat4_set(temp, transform);
         /* Translate temp matrix with x_displacement. */
         mve4_translate(temp, temp, (vec3){event_data.xdiff, event_data.ydiff, event_data.zdiff});
-        //mfv4_rotate(rotation, M_PI*event_data.rotation, (vec3){0.0f, 0.0f, -1.0f});
+
+        tri_center(new_coords, mass_center);
+        curr_x = mass_center[0] + temp[0][3];
+        curr_y = mass_center[1] + temp[1][3];
+        curr_z = mass_center[2] + temp[2][3];
+        printf("current center: %f, %f, %f\n", curr_x, curr_y, curr_z);
+
+        if (curr_x > 1.0f) {
+            /* Snap back to left part of screen, -1.0f */
+            temp[0][3] = -( 1.0f - mass_center[0] );
+            event_data.xdiff -= 2.0f;
+        } else if (curr_x < -1.0f) {
+            temp[0][3] = ( 1.0f - mass_center[0] );
+            event_data.xdiff += 2.0f;
+        }
+
+        if (curr_y > 1.0f) {
+            /* Snap back to left part of screen, -1.0f */
+            temp[1][3] = -( 1.0f - mass_center[0] );
+            event_data.ydiff -= 2.0f;
+        } else if (curr_y < -1.0f) {
+            temp[1][3] = ( 1.0f - mass_center[0] );
+            event_data.ydiff += 2.0f;
+        }
+
+
+        //mfv4_rotate(rotation, M_PI*event_data.rotation, (vec3){0.0f, 0.0f, -1.0f
         center_rotation(rotation, M_PI*event_data.rotation, (vec3){0.0f, 0.0f, -1.0f}, new_coords);
         mat4_mul(multemp, temp, rotation);
+
 
         glUniformMatrix4fv(transform_location, 1, MATORD, mat_ptr(multemp));
 
