@@ -366,9 +366,11 @@ int main(void) {
     int total_indices = 3;
     int total_coords = total_indices*3;
 
+    float temp_coords[total_coords];
     float new_coords[total_coords];
     for (int i=0; i<total_coords; i++) {
         new_coords[i] = 0.0f;
+        temp_coords[i] = 0.0f;
     }
 
     while(!glfwWindowShouldClose(window)) {
@@ -383,12 +385,15 @@ int main(void) {
             adjusted_x = ((mouse_pos[0]/width)*2.0f)-1.0f;
             adjusted_y = ((mouse_pos[1]/height)*-2.0f)+1.0f;
 
-            new_coords[current_index*3+0] = adjusted_x;
-            new_coords[current_index*3+1] = adjusted_y;
-            new_coords[current_index*3+2] = 0.0f;
+            temp_coords[current_index*3+0] = adjusted_x;
+            temp_coords[current_index*3+1] = adjusted_y;
+            temp_coords[current_index*3+2] = 0.0f;
 
             current_index += 1;
             if (current_index >= total_indices) {
+                for (int i=0; i < total_coords; i++) {
+                    new_coords[i] = temp_coords[i];
+                }
                 current_index = 0;
                 glBindBuffer(GL_ARRAY_BUFFER, VBO);
                 glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(GLfloat)*total_coords, (void*)&new_coords);
@@ -409,9 +414,7 @@ int main(void) {
         mve4_translate(temp, temp, (vec3){event_data.xdiff, event_data.ydiff, event_data.zdiff});
         //mfv4_rotate(rotation, M_PI*event_data.rotation, (vec3){0.0f, 0.0f, -1.0f});
         center_rotation(rotation, M_PI*event_data.rotation, (vec3){0.0f, 0.0f, -1.0f}, new_coords);
-        mat4_print(rotation);
         mat4_mul(multemp, temp, rotation);
-        mat4_print(multemp);
 
         glUniformMatrix4fv(transform_location, 1, MATORD, mat_ptr(multemp));
 
