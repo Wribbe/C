@@ -166,7 +166,39 @@ void tri_center(mat3 coords, vec3 result) {
     result[3] = 0.0f;
 }
 
-void center_rotation(mat4 rotation, float angle, vec3 axis, vec3 new_coords) {
+typedef struct TriInfo {
+    vec3 center;
+    mat4 bounding_box;
+    float height;
+    float width;
+} TriInfo;
+
+float get_topmost(mat3 coords, char pos) {
+    int index = 0;
+
+    if (pos == 'y') {
+        index = 1;
+    } else if (pos == 'z') {
+        index = 2;
+    }
+
+    float max = 0;
+    for (int i=0; i<3; i++) {
+        if (coords[index][i] > max) {
+            max = coords[index][i];
+        }
+    }
+    return max;
+}
+
+void tri_info(mat3 coords, TriInfo info) {
+   tri_center(coords, info.center);
+   float top_x = get_topmost(coords, 'x');
+   //printf("Got x: %f\n", top_x);
+}
+
+
+void center_rotation(mat4 rotation, float angle, vec3 axis, mat3 new_coords) {
 
     mat4 trans_origo, trans_back, temp_rot, temp_mul;
     vec3 mass_center = {0};
@@ -364,6 +396,8 @@ int main(void) {
     vec3 mass_center = {0};
     float curr_x,curr_y,curr_z;
 
+    bool draw_clone = false;
+
     while(!glfwWindowShouldClose(window)) {
 
         mat4_set(temp, m4id);
@@ -409,6 +443,9 @@ int main(void) {
 
         UNUSED(curr_z);
 
+        TriInfo info_tri = {0};
+        tri_info(new_coords, info_tri);
+
         if (curr_x > 1.0f) {
             /* Snap back to left part of screen, -1.0f */
             temp[0][3] = -( 1.0f - mass_center[0] );
@@ -425,6 +462,7 @@ int main(void) {
         } else if (curr_y < -1.0f) {
             temp[1][3] = ( 1.0f - mass_center[0] );
             event_data.ydiff += 2.0f;
+            draw_clone = true;
         }
 
 
@@ -447,7 +485,6 @@ int main(void) {
             glBindVertexArray(VAO);
             glDrawArrays(GL_TRIANGLES, 0, 6);
             glBindVertexArray(0);
-            mat4_print(multemp);
         }
 
         /* Swap from and back buffers. */
