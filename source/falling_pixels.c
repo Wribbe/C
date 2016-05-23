@@ -139,20 +139,20 @@ void event_processing(bool * keymap, GLFWwindow * window, Event_data * event_dat
     }
 }
 
-void tri_center(float * coords, vec3 result) {
+void tri_center(mat3 coords, vec3 result) {
     /*
      * [x1][y1][z1] [0*3,_]
      * [x2][y2][z2] [1*3,_]
      * [x3][y3][z3] [2*3,_]
      */
 
-    float x1 = coords[3*0+0];
-    float x2 = coords[3*1+0];
-    float x3 = coords[3*2+0];
+    float x1 = coords[3][0];
+    float x2 = coords[3][0];
+    float x3 = coords[3][0];
 
-    float y1 = coords[3*0+1];
-    float y2 = coords[3*1+1];
-    float y3 = coords[3*2+1];
+    float y1 = coords[3][1];
+    float y2 = coords[3][1];
+    float y3 = coords[3][1];
 
     float sum_x = x1+x2+x3;
     float sum_y = y1+y2+y3;
@@ -355,12 +355,8 @@ int main(void) {
     int total_indices = 3;
     int total_coords = total_indices*3;
 
-    float temp_coords[total_coords];
-    float new_coords[total_coords];
-    for (int i=0; i<total_coords; i++) {
-        new_coords[i] = 0.0f;
-        temp_coords[i] = 0.0f;
-    }
+    mat3 temp_coords = {0};
+    mat3 new_coords = {0};
 
     vec3 mass_center = {0};
     float curr_x,curr_y,curr_z;
@@ -377,15 +373,13 @@ int main(void) {
             adjusted_x = ((mouse_pos[0]/width)*2.0f)-1.0f;
             adjusted_y = ((mouse_pos[1]/height)*-2.0f)+1.0f;
 
-            temp_coords[current_index*3+0] = adjusted_x;
-            temp_coords[current_index*3+1] = adjusted_y;
-            temp_coords[current_index*3+2] = 0.0f;
+            temp_coords[current_index][0] = adjusted_x;
+            temp_coords[current_index][1] = adjusted_y;
+            temp_coords[current_index][2] = 0.0f;
 
             current_index += 1;
             if (current_index >= total_indices) {
-                for (int i=0; i < total_coords; i++) {
-                    new_coords[i] = temp_coords[i];
-                }
+                mat3_set(new_coords, temp_coords);
                 current_index = 0;
                 glBindBuffer(GL_ARRAY_BUFFER, VBO);
                 glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(GLfloat)*total_coords, (void*)&new_coords);
