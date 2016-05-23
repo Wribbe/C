@@ -52,6 +52,7 @@ clean:
 	$(info Removing vgcore files.)
 	-@rm -r vgcore*
 	$(info Done.)
+	make
 
 falling_pixels: $(D_OBJ)/falling_pixels.o $(D_OBJ)/utility_functions.o | mk_$(D_EXEC)
 	$(CC) -o $(D_EXEC)/falling_pixels $(D_OBJ)/falling_pixels.o $(D_OBJ)/utility_functions.o $(LIB_FLAGS) $(CFLAGS) $(GRAPHICS_FLAGS) $(SOUND_FLAGS)
