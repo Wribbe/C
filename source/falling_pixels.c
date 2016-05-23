@@ -22,6 +22,7 @@ typedef struct {
 
 void mouse_button_callback(GLFWwindow * window, int button, int action, int mods) {
     UNUSED(mods);
+    UNUSED(window);
     if (action == GLFW_PRESS && !mousemap[button]) {
         mousemap[button] = true;
     } else if (action == GLFW_RELEASE && mousemap[button]) {
@@ -30,6 +31,7 @@ void mouse_button_callback(GLFWwindow * window, int button, int action, int mods
 }
 
 static void cursor_position_callback(GLFWwindow * window, double xpos, double ypos) {
+    UNUSED(window);
     if (xpos > 0.0f) {
         mouse_pos[0] = xpos;
     }
@@ -342,7 +344,6 @@ int main(void) {
 
     GLuint transform_location = glGetUniformLocation(shaderProgram, "transform");
 
-    float x_displacement = 0.0f;
     Event_data event_data;
     init_event_data(&event_data);
     mat4 multemp = {0};
@@ -403,6 +404,8 @@ int main(void) {
         curr_x = mass_center[0] + temp[0][3];
         curr_y = mass_center[1] + temp[1][3];
         curr_z = mass_center[2] + temp[2][3];
+
+        UNUSED(curr_z);
 
         if (curr_x > 1.0f) {
             /* Snap back to left part of screen, -1.0f */
