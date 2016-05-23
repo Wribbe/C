@@ -339,17 +339,6 @@ int main(void) {
     mat4 temp = {0};
 
     mat4_set(transform, m4id);
-//    mfl4_scale(transform, transform, 0.5f);
-//
-//    mat4_print(transform);
-//
-//    mfv4_rotate(rotation, 0.25*M_PI, (vec3){0.0f, 0.0f, 1.0f});
-//
-//    mat4 temp = {0};
-//    mat4_mul(temp, transform, rotation);
-//
-//    mat4_set(transform, temp);
-//    mat4_print(transform);
 
     GLuint transform_location = glGetUniformLocation(shaderProgram, "transform");
 
@@ -420,7 +409,6 @@ int main(void) {
         curr_x = mass_center[0] + temp[0][3];
         curr_y = mass_center[1] + temp[1][3];
         curr_z = mass_center[2] + temp[2][3];
-        printf("current center: %f, %f, %f\n", curr_x, curr_y, curr_z);
 
         if (curr_x > 1.0f) {
             /* Snap back to left part of screen, -1.0f */
@@ -448,17 +436,23 @@ int main(void) {
 
         glUniformMatrix4fv(transform_location, 1, MATORD, mat_ptr(multemp));
 
+
         glBindVertexArray(VAO);
         glDrawArrays(GL_TRIANGLES, 0, 6);
         glBindVertexArray(0);
 
+        if (draw_clone) {
+            multemp[0][3] *= -1;
+            multemp[1][3] *= -1;
+            glUniformMatrix4fv(transform_location, 1, MATORD, mat_ptr(multemp));
+            glBindVertexArray(VAO);
+            glDrawArrays(GL_TRIANGLES, 0, 6);
+            glBindVertexArray(0);
+            mat4_print(multemp);
+        }
+
         /* Swap from and back buffers. */
         glfwSwapBuffers(window);
-
-        if (temp[0][3]+x_displacement >= 1.0f) {
-            x_displacement = 0.0f;
-        }
-        x_displacement += 0.01f;
 
         if (keymap[GLFW_KEY_SPACE]) {
             Pa_StartStream(stream);
