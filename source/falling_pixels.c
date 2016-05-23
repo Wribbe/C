@@ -20,6 +20,8 @@ typedef struct {
     float right_phase;
 } paTestData;
 
+static paTestData data = {0};
+
 void mouse_button_callback(GLFWwindow * window, int button, int action, int mods) {
     UNUSED(mods);
     UNUSED(window);
