@@ -146,13 +146,13 @@ void tri_center(mat3 coords, vec3 result) {
      * [x3][y3][z3] [2*3,_]
      */
 
-    float x1 = coords[3][0];
-    float x2 = coords[3][0];
-    float x3 = coords[3][0];
+    float x1 = coords[2][0];
+    float x2 = coords[2][0];
+    float x3 = coords[2][0];
 
-    float y1 = coords[3][1];
-    float y2 = coords[3][1];
-    float y3 = coords[3][1];
+    float y1 = coords[2][1];
+    float y2 = coords[2][1];
+    float y3 = coords[2][1];
 
     float sum_x = x1+x2+x3;
     float sum_y = y1+y2+y3;
