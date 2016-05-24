@@ -194,7 +194,6 @@ float get_topmost(mat3 coords, char pos) {
 void tri_info(mat3 coords, TriInfo info) {
    tri_center(coords, info.center);
    float top_x = get_topmost(coords, 'x');
-   //printf("Got x: %f\n", top_x);
 }
 
 
