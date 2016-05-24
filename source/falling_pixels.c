@@ -150,12 +150,12 @@ void tri_center(mat3 coords, vec3 result) {
      * [x3][y3][z3] [2*3,_]
      */
 
-    float x1 = coords[2][0];
-    float x2 = coords[2][0];
+    float x1 = coords[0][0];
+    float x2 = coords[1][0];
     float x3 = coords[2][0];
 
-    float y1 = coords[2][1];
-    float y2 = coords[2][1];
+    float y1 = coords[0][1];
+    float y2 = coords[1][1];
     float y3 = coords[2][1];
 
     float sum_x = x1+x2+x3;
@@ -163,7 +163,7 @@ void tri_center(mat3 coords, vec3 result) {
 
     result[0] = sum_x/3.0f;
     result[1] = sum_y/3.0f;
-    result[3] = 0.0f;
+    result[2] = 0.0f;
 }
 
 typedef struct TriInfo {
