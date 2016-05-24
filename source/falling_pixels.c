@@ -447,19 +447,15 @@ int main(void) {
 
         if (curr_x > 1.0f) {
             /* Snap back to left part of screen, -1.0f */
-            temp[0][3] = -( 1.0f - mass_center[0] );
             event_data.xdiff -= 2.0f;
         } else if (curr_x < -1.0f) {
-            temp[0][3] = ( 1.0f - mass_center[0] );
             event_data.xdiff += 2.0f;
         }
 
         if (curr_y > 1.0f) {
             /* Snap back to left part of screen, -1.0f */
-            temp[1][3] = -( 1.0f - mass_center[0] );
             event_data.ydiff -= 2.0f;
         } else if (curr_y < -1.0f) {
-            temp[1][3] = ( 1.0f - mass_center[0] );
             event_data.ydiff += 2.0f;
             draw_clone = true;
         }
