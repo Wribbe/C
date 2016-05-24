@@ -182,8 +182,8 @@ float get_topmost(mat3 coords, char pos) {
         index = 2;
     }
 
-    float max = 0;
-    for (int i=0; i<3; i++) {
+    float max = -2.0f;
+    for (int i=0; i<2; i++) {
         if (coords[index][i] > max) {
             max = coords[index][i];
         }
