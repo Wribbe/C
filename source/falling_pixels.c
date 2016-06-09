@@ -166,12 +166,46 @@ void tri_center(mat3 coords, vec3 result) {
     result[2] = 0.0f;
 }
 
+typedef struct Point {
+    float x;
+    float y;
+    float z;
+} Point;
+
 typedef struct TriInfo {
     vec3 center;
     mat4 bounding_box;
+    Point sorted_x[3];
+    Point sorted_y[3];
     float height;
     float width;
 } TriInfo;
+
+void sort_coordinates(mat3 coords, Point * x_coords, Point * y_coords) {
+    float max_x = -3.0f;
+    float max_y = -3.0f;
+
+    int xpos[3] = {0};
+    int ypos[3] = {0};
+
+    if(coords[0][0] < coords[1][0]) {
+        xpos[0] = 0;
+        xpos[1] = 1;
+    } else {
+        xpos[0] = 1;
+        xpos[1] = 0;
+    }
+    if(coords[0][xpos[1]] < coords[2][0]) {
+        xpos[2] = 2;
+    } else {
+        xpos[2] = xpos[1];
+        xpos[1] = 3;
+    }
+
+    for (int i=0; i<3; i++) {
+        x_coords[i] = (Point){coords[xpos[i]][0], 0.0f, 0.0f};
+    }
+}
 
 float get_topmost(mat3 coords, char pos) {
     int index = 0;
@@ -193,7 +227,14 @@ float get_topmost(mat3 coords, char pos) {
 
 void tri_info(mat3 coords, TriInfo info) {
    tri_center(coords, info.center);
-   float top_x = get_topmost(coords, 'x');
+   Point x[3];
+   Point y[3];
+   sort_coordinates(coords, x, y);
+   Point temp;
+   for (int i=0; i<3; i++) {
+       temp = x[i];
+       printf("Sorted x-coord[%d]: %f\n", i, temp.x);
+   }
 }
 
 
@@ -457,7 +498,6 @@ int main(void) {
             event_data.ydiff -= 2.0f;
         } else if (curr_y < -1.0f) {
             event_data.ydiff += 2.0f;
-            draw_clone = true;
         }
 
 
